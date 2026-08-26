@@ -141,7 +141,8 @@ that run FastLogin on both proxy and backend. A backend that owns authentication
 sendLegacyBackendAuthMessages: false
 ```
 
-With this setting Velocity does not schedule `ForceLoginTask`; the independent backend must send the existing empty
+With this setting Velocity short-circuits backend-auth handling before Floodgate and session lookup, so neither the
+regular nor Floodgate path can schedule `ForceLoginTask`. The independent backend must send the existing empty
 `fastlogin:succ` message only after its durable premium-auth operation succeeds. TDR uses this mode so Identity remains
 the sole AuthMe owner. Do not disable the bridge for a normal two-sided FastLogin installation.
 

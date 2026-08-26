@@ -164,6 +164,10 @@ public class ConnectListener {
         Player player = serverConnectedEvent.getPlayer();
         RegisteredServer server = serverConnectedEvent.getServer();
 
+        if (!shouldSendLegacyBackendAuthMessages(plugin.getCore().getConfig())) {
+            return;
+        }
+
         FloodgateService floodgateService = plugin.getFloodgateService();
         if (floodgateService != null) {
             FloodgatePlayer floodgatePlayer = floodgateService.getBedrockPlayer(player.getUniqueId());
@@ -173,10 +177,6 @@ public class ConnectListener {
                 plugin.getScheduler().runAsync(floodgateAuthTask);
                 return;
             }
-        }
-
-        if (!shouldSendLegacyBackendAuthMessages(plugin.getCore().getConfig())) {
-            return;
         }
 
         VelocityLoginSession session = plugin.getSession().get(player.getRemoteAddress());
