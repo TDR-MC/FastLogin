@@ -40,6 +40,13 @@ anti-bot:
 # For more information: https://github.com/games647/FastLogin#why-do-players-have-to-invoke-a-command
 autoRegister: false
 
+# Proxy-only compatibility bridge. After a player reaches a backend, the Velocity/Bungee modules traditionally send
+# FastLogin's legacy REGISTER/LOGIN plugin message to a matching FastLogin backend module. Keep this true for the
+# upstream-compatible two-sided installation. Set it to false only when another trusted backend authentication owner
+# consumes earlyPremiumClaim and sends fastlogin:succ after its own durable authentication succeeds. When false,
+# Velocity does not schedule the delayed ForceLoginTask at all.
+sendLegacyBackendAuthMessages: true
+
 # Should FastLogin respect per IP limit of registrations (e.g. in AuthMe)
 # Because most auth plugins do their stuff async - FastLogin will still think the player was registered
 # To work best - you also need to enable auto-register-unknown

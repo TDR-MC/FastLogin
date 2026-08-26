@@ -55,6 +55,7 @@ import com.velocitypowered.api.util.GameProfile;
 import com.velocitypowered.api.util.GameProfile.Property;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.md_5.bungee.config.Configuration;
 import org.geysermc.floodgate.api.player.FloodgatePlayer;
 
 import java.lang.reflect.Field;
@@ -174,6 +175,10 @@ public class ConnectListener {
             }
         }
 
+        if (!shouldSendLegacyBackendAuthMessages(plugin.getCore().getConfig())) {
+            return;
+        }
+
         VelocityLoginSession session = plugin.getSession().get(player.getRemoteAddress());
         if (session == null) {
             plugin.getLog().info("No active login session found on server connect for {}", player);
@@ -187,6 +192,10 @@ public class ConnectListener {
 
         // Delay at least one second, otherwise the login command can be missed
         plugin.getScheduler().runAsyncDelayed(loginTask, Duration.ofSeconds(1));
+    }
+
+    static boolean shouldSendLegacyBackendAuthMessages(Configuration config) {
+        return config.get("sendLegacyBackendAuthMessages", true);
     }
 
     @Subscribe

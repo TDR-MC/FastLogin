@@ -1,5 +1,10 @@
 ### TDR-maintained fork (unreleased)
 
+* Advance the fork artifact version to `1.12.0-tdr.2-SNAPSHOT`.
+* Add upstream-compatible `sendLegacyBackendAuthMessages` with default `true`.
+* When explicitly disabled, Velocity does not schedule the delayed legacy REGISTER/LOGIN `ForceLoginTask`; an
+  independent backend authentication owner must acknowledge durable premium success on `fastlogin:succ`.
+
 * Start `1.12.0-tdr.1-SNAPSHOT` from upstream commit `948613876e8239863ef9a7ce077184b1314efc2a` and emit versioned jars.
 * Preserve upstream FastLogin authorship and MIT licensing while documenting the maintained fork boundary.
 * Target Paper 26.1.2 build 74, Purpur 2592, Velocity 3.5.0-SNAPSHOT runtime build 605 and Java 25.0.3.

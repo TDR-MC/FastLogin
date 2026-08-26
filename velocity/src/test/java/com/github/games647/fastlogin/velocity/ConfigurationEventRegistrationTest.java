@@ -29,6 +29,7 @@ import com.github.games647.fastlogin.velocity.listener.ConnectListener;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.player.configuration.PlayerConfigurationEvent;
 import com.velocitypowered.api.event.player.configuration.PlayerEnteredConfigurationEvent;
+import net.md_5.bungee.config.Configuration;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
@@ -36,6 +37,7 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ConfigurationEventRegistrationTest {
 
@@ -59,5 +61,25 @@ class ConfigurationEventRegistrationTest {
 
         assertFalse(listensForEnteredEvent);
         assertFalse(senderAcceptsEnteredEvent);
+    }
+
+    @Test
+    void legacyBackendAuthMessagesRemainUpstreamCompatibleByDefault() throws Exception {
+        assertTrue(legacyBridgeSetting(new Configuration()));
+    }
+
+    @Test
+    void disabledLegacyBackendBridgeCannotScheduleForceLogin() throws Exception {
+        Configuration config = new Configuration();
+        config.set("sendLegacyBackendAuthMessages", false);
+
+        assertFalse(legacyBridgeSetting(config));
+    }
+
+    private static boolean legacyBridgeSetting(Configuration config) throws Exception {
+        Method method = ConnectListener.class.getDeclaredMethod(
+                "shouldSendLegacyBackendAuthMessages", Configuration.class);
+        method.setAccessible(true);
+        return (boolean) method.invoke(null, config);
     }
 }
