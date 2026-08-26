@@ -115,7 +115,8 @@ public class PluginMessageListener {
         }
     }
 
-    private void onSuccessMessage(Player forPlayer) {
+    void onSuccessMessage(Player forPlayer) {
+        plugin.getLog().info("Received backend premium success acknowledgement for {}", forPlayer.getUsername());
         boolean shouldPersist = forPlayer.isOnlineMode();
 
         FloodgateService floodgateService = plugin.getFloodgateService();
@@ -124,16 +125,45 @@ public class PluginMessageListener {
             shouldPersist = floodgateService.isBedrockPlayer(forPlayer.getUniqueId());
         }
 
-        if (shouldPersist) {
-            //bukkit module successfully received and force logged in the user
-            //update only on success to prevent corrupt data
-            VelocityLoginSession loginSession = plugin.getSession().get(forPlayer.getRemoteAddress());
-            StoredProfile playerProfile = loginSession.getProfile();
+        if (!shouldPersist) {
+            plugin.getLog().warn("Ignoring backend premium success acknowledgement for non-premium player {}",
+                    forPlayer.getUsername());
+            return;
+        }
+
+        // The backend successfully completed its durable authentication operation. Persist only after that ACK.
+        VelocityLoginSession loginSession = plugin.getSession().get(forPlayer.getRemoteAddress());
+        if (loginSession == null) {
+            plugin.getLog().warn("Ignoring backend premium success acknowledgement for {}: login session missing",
+                    forPlayer.getUsername());
+            return;
+        }
+
+        synchronized (loginSession) {
             loginSession.setRegistered(true);
-            if (!loginSession.isAlreadySaved()) {
+            if (loginSession.isAlreadySaved()) {
+                plugin.getLog().info("Backend premium success acknowledgement for {} was already persisted",
+                        forPlayer.getUsername());
+                return;
+            }
+
+            StoredProfile playerProfile = loginSession.getProfile();
+            if (playerProfile == null) {
+                plugin.getLog().warn("Ignoring backend premium success acknowledgement for {}: profile missing",
+                        forPlayer.getUsername());
+                return;
+            }
+
+            try {
                 playerProfile.setOnlinemodePreferred(true);
                 plugin.getCore().getStorage().save(playerProfile);
                 loginSession.setAlreadySaved(true);
+                plugin.getLog().info("Persisted premium profile after backend acknowledgement for {}",
+                        forPlayer.getUsername());
+            } catch (RuntimeException error) {
+                plugin.getLog().warn("Failed to persist premium profile after backend acknowledgement for {}: {}",
+                        forPlayer.getUsername(), error.getClass().getSimpleName());
+                throw error;
             }
         }
     }

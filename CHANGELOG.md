@@ -1,6 +1,10 @@
 ### TDR-maintained fork (unreleased)
 
-* Advance the fork artifact version to `1.12.0-tdr.2-SNAPSHOT`.
+* Advance the fork artifact version to `1.12.0-tdr.3-SNAPSHOT`.
+* Make Velocity's `fastlogin:succ` acknowledgement observable, null-safe and idempotent so repeated acknowledgements
+  persist the premium session exactly once while a missing address-keyed login session cannot break the event loop.
+* Add an opt-in, fail-closed AuthMe configuration-phase bridge that emits AuthMeVelocity's signed `perform.login`
+  payload only for a Mojang-verified premium identity and only after the primary TDR premium claim is delivered.
 * Add upstream-compatible `sendLegacyBackendAuthMessages` with default `true`.
 * When explicitly disabled, Velocity short-circuits before Floodgate and session handling so no legacy REGISTER/LOGIN
   `ForceLoginTask` can be scheduled; an independent backend authentication owner must acknowledge durable premium

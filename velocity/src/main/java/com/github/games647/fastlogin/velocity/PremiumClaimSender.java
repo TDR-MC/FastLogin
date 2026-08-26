@@ -53,7 +53,7 @@ public final class PremiumClaimSender {
     private final byte[] secret;
     private final long ttlMillis;
 
-    private PremiumClaimSender(FastLoginVelocity plugin, byte[] secret, long ttlMillis) {
+    PremiumClaimSender(FastLoginVelocity plugin, byte[] secret, long ttlMillis) {
         this.plugin = plugin;
         this.secret = secret;
         this.ttlMillis = ttlMillis;
@@ -131,6 +131,10 @@ public final class PremiumClaimSender {
         if (sent) {
             plugin.getLog().info("Sent configuration-phase premium claim for {} to {}",
                     player.getUsername(), event.server().getServerInfo().getName());
+            AuthMePremiumLoginBridge authMeBridge = plugin.getAuthMePremiumLoginBridge();
+            if (authMeBridge != null) {
+                authMeBridge.sendVerifiedPremium(event, session);
+            }
         } else {
             plugin.getLog().warn("Failed to send configuration-phase premium claim for {} to {}; "
                     + "the backend must not bypass authentication", player.getUsername(),

@@ -85,6 +85,7 @@ public class FastLoginVelocity implements PlatformPlugin<CommandSource> {
     private UUID proxyId;
     private PremiumClaimSender premiumClaimSender;
     private PremiumNamePreflight premiumNamePreflight;
+    private AuthMePremiumLoginBridge authMePremiumLoginBridge;
 
     @Inject
     public FastLoginVelocity(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory) {
@@ -116,6 +117,9 @@ public class FastLoginVelocity implements PlatformPlugin<CommandSource> {
 
         premiumNamePreflight = PremiumNamePreflight.load(this);
         premiumClaimSender = PremiumClaimSender.load(this);
+        if (premiumClaimSender != null) {
+            authMePremiumLoginBridge = AuthMePremiumLoginBridge.load(this);
+        }
 
         ChannelRegistrar channelRegistry = server.getChannelRegistrar();
         channelRegistry.register(MinecraftChannelIdentifier.create(getName(), ChangePremiumMessage.CHANGE_CHANNEL));
@@ -185,6 +189,10 @@ public class FastLoginVelocity implements PlatformPlugin<CommandSource> {
 
     public ConcurrentMap<InetSocketAddress, VelocityLoginSession> getSession() {
         return session;
+    }
+
+    public AuthMePremiumLoginBridge getAuthMePremiumLoginBridge() {
+        return authMePremiumLoginBridge;
     }
 
     public ProxyServer getProxy() {

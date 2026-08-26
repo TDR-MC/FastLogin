@@ -9,9 +9,9 @@ The current fork runtime target is Minecraft/Paper `26.1.2` build `74`, Purpur `
 a compatibility claim established by this standalone fork build. Other versions remain upstream compatibility rather
 than a tested promise of this fork.
 
-The fork starts from upstream commit `948613876e8239863ef9a7ce077184b1314efc2a`. Its first development artifact
-version is `1.12.0-tdr.2-SNAPSHOT`; it is not an upstream FastLogin release. Maven packaging produces versioned names
-such as `FastLoginBukkit-1.12.0-tdr.2-SNAPSHOT.jar` and `FastLoginVelocity-1.12.0-tdr.2-SNAPSHOT.jar`, so rollout and
+The fork starts from upstream commit `948613876e8239863ef9a7ce077184b1314efc2a`. Its current development artifact
+version is `1.12.0-tdr.3-SNAPSHOT`; it is not an upstream FastLogin release. Maven packaging produces versioned names
+such as `FastLoginBukkit-1.12.0-tdr.3-SNAPSHOT.jar` and `FastLoginVelocity-1.12.0-tdr.3-SNAPSHOT.jar`, so rollout and
 rollback cannot silently confuse fork jars with upstream artifacts.
 
 ![A shield-shaped emblem with a bold lightning bolt on the left, resembling Minecraft blocks. To the right, "FastLogin" is written in teal, with the tagline: "Automatically detect and login premium Minecraft players"](https://github.com/user-attachments/assets/0788ef69-029b-465e-83a2-b8e7bccc6295 "FastLogin project logo.avif")
@@ -145,6 +145,32 @@ With this setting Velocity short-circuits backend-auth handling before Floodgate
 regular nor Floodgate path can schedule `ForceLoginTask`. The independent backend must send the existing empty
 `fastlogin:succ` message only after its durable premium-auth operation succeeds. TDR uses this mode so Identity remains
 the sole AuthMe owner. Do not disable the bridge for a normal two-sided FastLogin installation.
+
+#### AuthMe configuration-phase bridge
+
+Velocity can optionally send AuthMe's signed `perform.login` message during the same initial configuration event,
+after the primary `earlyPremiumClaim` message has been delivered successfully. This lets AuthMe establish its proxy
+session before the backend's HIGHEST-priority Dialog gate runs, instead of relying on AuthMeVelocity's later post-join
+message.
+
+```yaml
+authMePremiumLoginBridge:
+  enabled: true
+  sharedSecretEnvironmentVariable: 'FASTLOGIN_AUTHME_PROXY_SHARED_SECRET'
+  authServers:
+  - lobby
+```
+
+The configured environment variable must contain the same 64-character hexadecimal secret used by AuthMeVelocity's
+`proxySharedSecret` and the backend AuthMe hook. AuthMeVelocity must be installed on the proxy, and every target must
+be listed by its exact Velocity registered-server name. Keep the secret out of YAML, logs, source control and startup
+arguments.
+
+The bridge signs AuthMe's official `perform.login` payload with an empty optional UUID. FastLogin sends it only for an
+online-mode player whose current name and Mojang-verified session identity match, and only after the TDR premium claim
+was accepted for transport. Missing identity, plugin, secret or allowlist configuration fails closed and leaves the
+normal password gate in place. See AuthMe's
+[official proxy documentation](https://docs.authme.reloadly.net/backend/proxy-mode).
 
 #### Reserved premium names
 
