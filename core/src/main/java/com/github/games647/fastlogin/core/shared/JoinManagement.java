@@ -142,10 +142,27 @@ public abstract class JoinManagement<P extends C, C, S extends LoginSource> {
     private boolean isUsernameAvailable(S source, String username, StoredProfile profile) throws Exception {
         core.getPlugin().getLog().info("GameProfile {} uses a premium username", username);
         if (core.getConfig().get("autoRegister", false) && (authHook == null || !authHook.isRegistered(username))) {
+            if (deferUnknownPremiumName(source, username)) {
+                return true;
+            }
+
             requestPremiumLogin(source, profile, username, false);
             return true;
         }
 
+        return false;
+    }
+
+    /**
+     * Optional platform hook that can finish the first online-mode attempt for an unknown paid-account name.
+     * Returning {@code true} means that the hook has already handled this login attempt. A later attempt can then
+     * continue through the normal premium-login flow.
+     *
+     * @param source platform login source
+     * @param username username being checked
+     * @return true if this attempt has already been handled and normal premium login should be deferred
+     */
+    protected boolean deferUnknownPremiumName(S source, String username) {
         return false;
     }
 

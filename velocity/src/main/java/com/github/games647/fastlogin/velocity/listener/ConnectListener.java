@@ -46,6 +46,7 @@ import com.velocitypowered.api.event.connection.PreLoginEvent;
 import com.velocitypowered.api.event.connection.PreLoginEvent.PreLoginComponentResult;
 import com.velocitypowered.api.event.player.GameProfileRequestEvent;
 import com.velocitypowered.api.event.player.ServerConnectedEvent;
+import com.velocitypowered.api.event.player.configuration.PlayerConfigurationEvent;
 import com.velocitypowered.api.plugin.PluginContainer;
 import com.velocitypowered.api.proxy.InboundConnection;
 import com.velocitypowered.api.proxy.Player;
@@ -186,6 +187,13 @@ public class ConnectListener {
 
         // Delay at least one second, otherwise the login command can be missed
         plugin.getScheduler().runAsyncDelayed(loginTask, Duration.ofSeconds(1));
+    }
+
+    @Subscribe
+    public void onPlayerConfiguration(PlayerConfigurationEvent event) {
+        if (plugin.getPremiumClaimSender() != null) {
+            plugin.getPremiumClaimSender().send(event);
+        }
     }
 
     @Subscribe

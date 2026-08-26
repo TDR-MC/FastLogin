@@ -83,6 +83,8 @@ public class FastLoginVelocity implements PlatformPlugin<CommandSource> {
     private FloodgateService floodgateService;
     private GeyserService geyserService;
     private UUID proxyId;
+    private PremiumClaimSender premiumClaimSender;
+    private PremiumNamePreflight premiumNamePreflight;
 
     @Inject
     public FastLoginVelocity(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory) {
@@ -112,9 +114,15 @@ public class FastLoginVelocity implements PlatformPlugin<CommandSource> {
         server.getEventManager().register(this, new ConnectListener(this, core.getAntiBotService()));
         server.getEventManager().register(this, new PluginMessageListener(this));
 
+        premiumNamePreflight = PremiumNamePreflight.load(this);
+        premiumClaimSender = PremiumClaimSender.load(this);
+
         ChannelRegistrar channelRegistry = server.getChannelRegistrar();
         channelRegistry.register(MinecraftChannelIdentifier.create(getName(), ChangePremiumMessage.CHANGE_CHANNEL));
         channelRegistry.register(MinecraftChannelIdentifier.create(getName(), SuccessMessage.SUCCESS_CHANNEL));
+        if (premiumClaimSender != null) {
+            channelRegistry.register(PremiumClaimSender.CHANNEL);
+        }
     }
 
     @Subscribe
@@ -233,5 +241,13 @@ public class FastLoginVelocity implements PlatformPlugin<CommandSource> {
 
     public ProxyServer getServer() {
         return server;
+    }
+
+    public PremiumClaimSender getPremiumClaimSender() {
+        return premiumClaimSender;
+    }
+
+    public PremiumNamePreflight getPremiumNamePreflight() {
+        return premiumNamePreflight;
     }
 }

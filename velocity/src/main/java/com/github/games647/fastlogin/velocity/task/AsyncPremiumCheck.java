@@ -90,6 +90,12 @@ public class AsyncPremiumCheck extends JoinManagement<Player, CommandSource, Vel
     }
 
     @Override
+    protected boolean deferUnknownPremiumName(VelocityLoginSource source, String username) {
+        return plugin.getPremiumNamePreflight() != null
+                && plugin.getPremiumNamePreflight().deferFirstAttempt(source, username);
+    }
+
+    @Override
     public void startCrackedSession(VelocityLoginSource source, StoredProfile profile, String username) {
         VelocityLoginSession session = new VelocityLoginSession(username, false, profile);
         plugin.getSession().put(source.getConnection().getRemoteAddress(), session);

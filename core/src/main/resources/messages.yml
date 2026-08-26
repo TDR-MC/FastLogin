@@ -51,6 +51,13 @@ player-unknown: '&4Player not in the database'
 # Player kicked from anti bot feature
 kick-antibot: '&4Please wait a moment!'
 
+# Reserved-premium-name explanation for integrations that can still control the disconnect result. Native Velocity
+# online-mode negotiation may fail before plugins receive a replaceable disconnect event; see README.md.
+premium-name-reserved: '&cThis name is protected by a paid Minecraft account. Sign in with the Microsoft account that owns it, or choose another name.'
+
+# Velocity premiumNamePreflight explanation shown before the first online-mode attempt for an unknown paid name.
+premium-name-preflight: '&cThis name is protected by a paid Minecraft account. If you own it, reconnect now using the official client. Otherwise choose another name.'
+
 # ========= Bukkit/Spigot ================
 
 # The user skipped the authentication, because it was a premium player

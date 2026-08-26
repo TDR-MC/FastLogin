@@ -35,7 +35,7 @@
     <packaging>pom</packaging>
 
     <name>FastLogin</name>
-    <version>1.12-SNAPSHOT</version>
+    <version>1.12.0-tdr.1-SNAPSHOT</version>
 
     <url>https://www.spigotmc.org/resources/fastlogin.14153/</url>
     <description>
@@ -48,7 +48,7 @@
         <!-- Set default for non-git clones -->
         <git.commit.id>Unknown</git.commit.id>
 
-        <maven.compiler.release>8</maven.compiler.release>
+        <maven.compiler.release>25</maven.compiler.release>
 
         <lombook.version>1.18.34</lombook.version>
 
@@ -76,8 +76,8 @@
     </distributionManagement>
 
     <build>
-        <!--Just use the project name to replace an old version of the plugin if the user does only copy-paste-->
-        <finalName>${project.name}</finalName>
+        <!--Keep fork artifacts distinguishable from upstream jars for controlled rollout and rollback.-->
+        <finalName>${project.name}-${project.version}</finalName>
 
         <plugins>
             <plugin>
@@ -229,7 +229,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>5.17.0</version>
+            <version>5.23.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

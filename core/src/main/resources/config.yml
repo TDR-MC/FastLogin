@@ -57,6 +57,24 @@ respectIpLimit: false
 # tries to join again, so the player could join as cracked player.
 secondAttemptCracked: false
 
+# Send a one-time HMAC-authenticated proof of Mojang verification from Velocity while the Paper backend is still in
+# configuration state. This allows authentication plugins to suppress pre-join login UI without changing the effective
+# offline UUID. Disabled by default and supported only by Velocity + Paper 26.1.2 or newer.
+#
+# The secret itself must not be written here. Set the same environment variable on Velocity and every trusted backend.
+# Its value must be at least 32 random bytes encoded as hexadecimal. Generate and distribute it through your normal
+# secret-management process; FastLogin never logs the value.
+earlyPremiumClaim:
+  enabled: false
+  sharedSecretEnvironmentVariable: 'FASTLOGIN_PREMIUM_CLAIM_SECRET'
+  # Backend only: exact registered Velocity server name. The proxy signs the actual target name dynamically.
+  audience: ''
+  # Proxy claim lifetime. Keep this short; the backend additionally enforces maxTtlSeconds.
+  ttlSeconds: 10
+  # Backend acceptance limits.
+  maxTtlSeconds: 30
+  maxFutureSkewSeconds: 5
+
 # New cracked players will be kicked from server. Good if you want switch from offline-mode to online-mode without
 # losing players!
 #
@@ -128,6 +146,23 @@ premiumUuid: false
 # **Limitation from autoRegister**: New offline players who use the username of an existing Minecraft cannot join the
 # server.
 nameChangeCheck: false
+
+# Velocity only. When autoRegister discovers an unknown name that belongs to a paid Minecraft account, deny the first
+# attempt with a clear explanation instead of immediately entering Mojang online-mode negotiation. The same normalized
+# name and SHA-256 client-IP binding receive one short-lived, single-use retry permit. The retry performs normal
+# online-mode authentication; this permit is not proof of account ownership and never bypasses Mojang authentication.
+#
+# This improves the first error shown to offline clients attempting to use a protected name. A failed second handshake
+# can still show Velocity's native "Invalid session" message. Licensed clients must reconnect once the first time a
+# previously unknown name is seen. This feature is incompatible with secondAttemptCracked=true: if both are configured,
+# FastLogin disables preflight and forces secondAttemptCracked off in memory so the base Mojang lookup keeps the paid
+# name protected. Set secondAttemptCracked=false explicitly. Disabled by default for upstream-compatible behavior.
+premiumNamePreflight:
+  enabled: false
+  # Hard maximum: 60 seconds.
+  permitTtlSeconds: 30
+  # Hard maximum: 10000. Oldest live entries are evicted when this bound is reached.
+  maximumPendingPermits: 2000
 
 # If your players have a premium account and a skin associated to their account, this plugin
 # can download the data and set it to the online player.

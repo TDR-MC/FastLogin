@@ -1,3 +1,24 @@
+### TDR-maintained fork (unreleased)
+
+* Start `1.12.0-tdr.1-SNAPSHOT` from upstream commit `948613876e8239863ef9a7ce077184b1314efc2a` and emit versioned jars.
+* Preserve upstream FastLogin authorship and MIT licensing while documenting the maintained fork boundary.
+* Target Paper 26.1.2 build 74, Purpur 2592, Velocity 3.5.0-SNAPSHOT runtime build 605 and Java 25.0.3.
+* Checksum-pin the resolved Velocity API snapshot `3.5.0-20260711.003721-41` without claiming it is equivalent to
+  runtime build 605; retain AuthMe 5.6.0 as the available compile API and leave 6.0.0-b2734 to the physical integration
+  gate.
+* Add an opt-in HMAC-SHA256 `fastlogin:premium_claim` protocol delivered during Velocity/Paper configuration.
+* Preserve the effective offline UUID and carry the Mojang UUID as a separate verified identity.
+* Bind claims to audience, profile, forwarded client IP, short TTL, allowed proxy and a one-time nonce.
+* Load the shared secret only from a configured environment variable; raw secrets are unsupported in YAML.
+* Fire `BukkitFastLoginPremiumClaimEvent` for pre-join authentication integrations after complete verification.
+* Send the initial claim from Velocity's awaited `PlayerConfigurationEvent`; never rely on the reconfiguration-only
+  `PlayerEnteredConfigurationEvent` for the primary login path.
+* Add reserved-premium-name copy for controllable rejection paths and document the native Velocity handshake limit.
+* Add an opt-in Velocity premium-name preflight with explanatory first-attempt copy and a bounded, IP/name-bound,
+  single-use retry permit before normal Mojang authentication.
+* Fail closed when premium-name preflight is combined with `secondAttemptCracked`: disable preflight and force the
+  unsafe cracked fallback off in memory so Mojang-owned names remain protected by the base lookup path.
+
 ### 1.11
 
 * TODO: Replace reflection with methodhandles

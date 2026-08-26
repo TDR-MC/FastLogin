@@ -1,2 +1,2 @@
-# Latest GitHub Action java release that is installed on the runners
-21
+# Exact Java major used by the TDR-maintained target
+25

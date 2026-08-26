@@ -30,13 +30,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
-        <maven.compiler.release>8</maven.compiler.release>
+        <maven.compiler.release>25</maven.compiler.release>
     </properties>
 
     <parent>
         <groupId>com.github.games647</groupId>
         <artifactId>fastlogin</artifactId>
-        <version>1.12-SNAPSHOT</version>
+        <version>1.12.0-tdr.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -50,7 +50,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>3.6.2</version>
                 <configuration>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
                     <shadedArtifactAttached>false</shadedArtifactAttached>
@@ -168,7 +168,7 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.21.6-R0.1-SNAPSHOT</version>
+            <version>26.1.2.build.74-stable</version>
             <scope>provided</scope>
             <!-- Use our own newer api version -->
             <exclusions>

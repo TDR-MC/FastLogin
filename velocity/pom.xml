@@ -32,7 +32,7 @@
     <parent>
         <groupId>com.github.games647</groupId>
         <artifactId>fastlogin</artifactId>
-        <version>1.12-SNAPSHOT</version>
+        <version>1.12.0-tdr.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -44,11 +44,47 @@
     <name>FastLoginVelocity</name>
 
     <properties>
-        <maven.compiler.release>17</maven.compiler.release>
+        <maven.compiler.release>25</maven.compiler.release>
+        <!--
+          PaperMC publishes Velocity API 3.5 snapshots under a mutable base coordinate. Keep the resolvable base
+          coordinate, but fail the build unless Maven resolved the exact audited timestamped artifact bytes.
+        -->
+        <velocity.api.version>3.5.0-SNAPSHOT</velocity.api.version>
+        <velocity.api.resolvedSnapshot>3.5.0-20260711.003721-41</velocity.api.resolvedSnapshot>
+        <velocity.api.sha256>c4c3fcf3d5ef20bb7d5839211d6c27c57da4dbcc94cc44ecc304fa8dccb55ff0</velocity.api.sha256>
     </properties>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>verify-velocity-api-snapshot</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <fail message="Resolved velocity-api does not match ${velocity.api.resolvedSnapshot}">
+                                    <condition>
+                                        <not>
+                                            <checksum
+                                                    file="${settings.localRepository}/com/velocitypowered/velocity-api/${velocity.api.version}/velocity-api-${velocity.api.version}.jar"
+                                                    algorithm="SHA-256"
+                                                    property="${velocity.api.sha256}"/>
+                                        </not>
+                                    </condition>
+                                </fail>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>templating-maven-plugin</artifactId>
@@ -78,7 +114,7 @@
 
             <plugin>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>3.6.2</version>
                 <configuration>
                     <minimizeJar>true</minimizeJar>
 
@@ -175,7 +211,8 @@
         <dependency>
             <groupId>com.velocitypowered</groupId>
             <artifactId>velocity-api</artifactId>
-            <version>3.4.0-SNAPSHOT</version>
+            <!-- Runtime build 605 has no equivalent API coordinate; exact resolved bytes are gated above. -->
+            <version>${velocity.api.version}</version>
             <scope>provided</scope>
         </dependency>
 
