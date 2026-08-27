@@ -94,6 +94,9 @@ public abstract class JoinManagement<P extends C, C, S extends LoginSource> {
     }
 
     private void performNewPlayerLogin(String username, S source, String ip, StoredProfile profile) {
+        Configuration config = core.getConfig();
+        Optional<Profile> premiumUUID = Optional.empty();
+
         try {
             if (core.hasFailedLogin(ip, username)) {
                 core.getPlugin().getLog().info("Second attempt login -> cracked {}", username);
@@ -103,10 +106,20 @@ public abstract class JoinManagement<P extends C, C, S extends LoginSource> {
                 return;
             }
 
-            Configuration config = core.getConfig();
-            Optional<Profile> premiumUUID = Optional.empty();
             if (config.get("nameChangeCheck", false) || config.get("autoRegister", false)) {
-                premiumUUID = core.getResolver().findProfile(username);
+                try {
+                    premiumUUID = core.getResolver().findProfile(username);
+                } catch (RateLimitException rateLimitEx) {
+                    core.getPlugin().getLog().error("Mojang's rate limit reached for {}. The public IPv4 address of"
+                            + " this server issued more than 600 Name -> UUID requests within 10 minutes. After those"
+                            + " 10 minutes we can make requests again.", username);
+                    denyUncertainPremiumName(source, config);
+                    return;
+                } catch (Exception ex) {
+                    core.getPlugin().getLog().error("Failed to check premium state of {}", username, ex);
+                    denyUncertainPremiumName(source, config);
+                    return;
+                }
             }
 
             if (!premiumUUID.isPresent()
@@ -120,12 +133,14 @@ public abstract class JoinManagement<P extends C, C, S extends LoginSource> {
 
                 startCrackedSession(source, profile, username);
             }
-        } catch (RateLimitException rateLimitEx) {
-            core.getPlugin().getLog().error("Mojang's rate limit reached for {}. The public IPv4 address of this"
-                    + " server issued more than 600 Name -> UUID requests within 10 minutes. After those 10"
-                    + " minutes we can make requests again.", username);
         } catch (Exception ex) {
             core.getPlugin().getLog().error("Failed to check premium state of {}", username, ex);
+        }
+    }
+
+    private void denyUncertainPremiumName(S source, Configuration config) {
+        if (config.get("autoRegister", false)) {
+            source.kick(core.getMessage("premium-name-check-unavailable"));
         }
     }
 

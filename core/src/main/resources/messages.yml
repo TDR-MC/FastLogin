@@ -55,6 +55,10 @@ kick-antibot: '&4Please wait a moment!'
 # online-mode negotiation may fail before plugins receive a replaceable disconnect event; see README.md.
 premium-name-reserved: '&cThis name is protected by a paid Minecraft account. Sign in with the Microsoft account that owns it, or choose another name.'
 
+# Shown when autoRegister must classify an unknown username but Mojang's profile service cannot return a reliable
+# answer. The connection is denied instead of falling through to offline mode, because the name may be protected.
+premium-name-check-unavailable: '&cPaid-account name verification is temporarily unavailable. Please try again shortly.'
+
 # Velocity premiumNamePreflight explanation shown before the first online-mode attempt for an unknown paid name.
 premium-name-preflight: '&cThis name is protected by a paid Minecraft account. If you own it, reconnect now using the official client. Otherwise choose another name.'
 

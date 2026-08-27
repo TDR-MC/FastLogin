@@ -174,6 +174,14 @@ disables preflight and forces `secondAttemptCracked` off in the in-memory runtim
 therefore continues reserving the paid name, but the first-attempt preflight copy is unavailable until the file is
 corrected. Production configuration must set `secondAttemptCracked: false` explicitly.
 
+When `autoRegister` reserves paid-account names, an unknown username must be classified before FastLogin can safely
+choose online or offline mode. If the Mojang Name -> UUID lookup is rate-limited or fails, this fork denies the login
+with the localized `premium-name-check-unavailable` message instead of allowing the name through as offline. A genuine
+`NOT_FOUND` response still starts the normal cracked/offline flow, while a resolved paid name still requests Mojang
+online-mode authentication. This fail-closed rule is fixed security behavior; only its player-facing message is
+configurable. Deployments using `nameChangeCheck` without `autoRegister` retain upstream behavior because they do not
+reserve every paid-account name.
+
 ```yaml
 premiumNamePreflight:
   enabled: true

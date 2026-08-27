@@ -1,5 +1,7 @@
 ### TDR-maintained fork (unreleased)
 
+* Fail closed when `autoRegister` cannot reliably classify an unknown username because Mojang's Name -> UUID lookup is
+  rate-limited or fails; deny with localized `premium-name-check-unavailable` instead of falling through to offline.
 * Advance the fork artifact version to `1.12.0-tdr.3-SNAPSHOT`.
 * Make Velocity's `fastlogin:succ` acknowledgement observable, null-safe and idempotent so repeated acknowledgements
   persist the premium session exactly once while a missing address-keyed login session cannot break the event loop.
