@@ -182,6 +182,10 @@ online-mode authentication. This fail-closed rule is fixed security behavior; on
 configurable. Deployments using `nameChangeCheck` without `autoRegister` retain upstream behavior because they do not
 reserve every paid-account name.
 
+The TDR fork also defaults the built-in anti-bot limit to `action: block`. Using `ignore` skips FastLogin's entire
+pre-login handler after the bucket fills and would therefore bypass premium-name reservation. Production must retain
+`block`; the normal TDR limit remains 600 handled connections per 10 minutes.
+
 ```yaml
 premiumNamePreflight:
   enabled: true

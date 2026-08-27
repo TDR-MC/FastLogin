@@ -166,8 +166,8 @@ public class FastLoginCore<P extends C, C, T extends PlatformPlugin<C>> {
             rateLimiter = () -> true;
         }
 
-        Action action = Action.Ignore;
-        switch (botSection.getString("action", "ignore")) {
+        Action action = Action.Block;
+        switch (botSection.getString("action", "block")) {
             case "ignore":
                 action = Action.Ignore;
                 break;
@@ -175,7 +175,7 @@ public class FastLoginCore<P extends C, C, T extends PlatformPlugin<C>> {
                 action = Action.Block;
                 break;
             default:
-                plugin.getLog().warn("Invalid anti bot action - defaulting to ignore");
+                plugin.getLog().warn("Invalid anti bot action - defaulting to block");
         }
 
         return new AntiBotService(plugin.getLog(), rateLimiter, action);

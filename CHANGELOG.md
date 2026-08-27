@@ -1,5 +1,7 @@
 ### TDR-maintained fork (unreleased)
 
+* Default the built-in anti-bot overflow action to fail-closed `block`; `ignore` bypasses all FastLogin pre-login
+  handling, including premium-name reservation.
 * Fail closed when `autoRegister` cannot reliably classify an unknown username because Mojang's Name -> UUID lookup is
   rate-limited or fails; deny with localized `premium-name-check-unavailable` instead of falling through to offline.
 * Advance the fork artifact version to `1.12.0-tdr.3-SNAPSHOT`.
