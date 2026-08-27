@@ -146,31 +146,11 @@ regular nor Floodgate path can schedule `ForceLoginTask`. The independent backen
 `fastlogin:succ` message only after its durable premium-auth operation succeeds. TDR uses this mode so Identity remains
 the sole AuthMe owner. Do not disable the bridge for a normal two-sided FastLogin installation.
 
-#### AuthMe configuration-phase bridge
-
-Velocity can optionally send AuthMe's signed `perform.login` message during the same initial configuration event,
-after the primary `earlyPremiumClaim` message has been delivered successfully. This lets AuthMe establish its proxy
-session before the backend's HIGHEST-priority Dialog gate runs, instead of relying on AuthMeVelocity's later post-join
-message.
-
-```yaml
-authMePremiumLoginBridge:
-  enabled: true
-  sharedSecretEnvironmentVariable: 'FASTLOGIN_AUTHME_PROXY_SHARED_SECRET'
-  authServers:
-  - lobby
-```
-
-The configured environment variable must contain the same 64-character hexadecimal secret used by AuthMeVelocity's
-`proxySharedSecret` and the backend AuthMe hook. AuthMeVelocity must be installed on the proxy, and every target must
-be listed by its exact Velocity registered-server name. Keep the secret out of YAML, logs, source control and startup
-arguments.
-
-The bridge signs AuthMe's official `perform.login` payload with an empty optional UUID. FastLogin sends it only for an
-online-mode player whose current name and Mojang-verified session identity match, and only after the TDR premium claim
-was accepted for transport. Missing identity, plugin, secret or allowlist configuration fails closed and leaves the
-normal password gate in place. See AuthMe's
-[official proxy documentation](https://docs.authme.reloadly.net/backend/proxy-mode).
+FastLogin deliberately does not forge AuthMe's `perform.login` message during initial player configuration. The exact
+AuthMe `6.0.0-b2734` backend does not consume proxy plugin messages on that connection API, so such a message would not
+reach its pre-join Dialog gate. A deployment with an independent premium-auth owner must disable AuthMe's native
+pre-join Dialog and retain the post-join password Dialog as fallback; otherwise use an AuthMe version whose exact
+configuration-phase contract has been independently verified.
 
 #### Reserved premium names
 

@@ -82,19 +82,6 @@ earlyPremiumClaim:
   maxTtlSeconds: 30
   maxFutureSkewSeconds: 5
 
-# Velocity-only compatibility bridge for AuthMe 6's signed configuration-phase perform.login protocol. It is invoked
-# only after FastLogin has completed Mojang online-mode verification and successfully sent earlyPremiumClaim for the
-# same connection. This lets AuthMe suppress its blocking password Dialog before join while TDR Identity remains the
-# durable account owner. Disabled by default and fail-closed if AuthMeVelocity, the secret or an exact auth-server
-# allowlist is missing.
-#
-# The secret must be the same 64-character hexadecimal proxySharedSecret used by AuthMeVelocity and every AuthMe
-# backend. Keep it outside YAML and expose it to Velocity through the named environment variable.
-authMePremiumLoginBridge:
-  enabled: false
-  sharedSecretEnvironmentVariable: 'FASTLOGIN_AUTHME_PROXY_SHARED_SECRET'
-  authServers: []
-
 # New cracked players will be kicked from server. Good if you want switch from offline-mode to online-mode without
 # losing players!
 #
