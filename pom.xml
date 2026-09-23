@@ -44,6 +44,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Stable archive entry timestamps for the current fork source build. -->
+        <project.build.outputTimestamp>2026-09-23T00:00:00Z</project.build.outputTimestamp>
 
         <!-- Set default for non-git clones -->
         <git.commit.id>Unknown</git.commit.id>
@@ -119,6 +121,8 @@
                                 <exclude>src/test/resources/**</exclude>
                                 <exclude>src/main/resources/**</exclude>
                                 <exclude>.java-version</exclude>
+                                <exclude>scripts/verify-build-inputs.py</exclude>
+                                <exclude>docs/dependency-tree/**</exclude>
                             </excludes>
                         </licenseSet>
                     </licenseSets>

@@ -14,6 +14,8 @@ on:
     branches:
       - main
 
+permissions: {}
+
 jobs:
   # job id
   build_and_test:
@@ -27,23 +29,34 @@ jobs:
     # Run steps
     steps:
       # Pull changes
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
 
       # Setup Java
       - name: Set up JDK
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
         with:
           distribution: 'temurin'
           java-version-file: '.java-version'
           cache: 'maven'
 
+      - name: Resolve dependency graph
+        run: |
+          mvn dependency:tree -DoutputFile=target/dependency-tree.txt --batch-mode --no-snapshot-updates --strict-checksums --file pom.xml
+          mvn test -DskipTests --batch-mode --no-snapshot-updates --strict-checksums --file pom.xml
+
+      - name: Verify locked build inputs
+        run: python3 scripts/verify-build-inputs.py
+
       # Build and test (included in package)
       - name: Build with Maven and test
         # Run non-interactive, package (with compile+test),
         # ignore snapshot updates, because they are likely to have breaking changes, enforce checksums
-        run: mvn test --batch-mode --threads 2.0C --no-snapshot-updates --strict-checksums --file pom.xml
+        run: mvn package --batch-mode --no-snapshot-updates --strict-checksums --file pom.xml
 
   dependency:
+    if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
     permissions:
       # Write only necessary for dependency submission all others then default to read
@@ -52,16 +65,27 @@ jobs:
     # Run steps
     steps:
       # Pull changes
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
 
       # Setup Java
       - name: Set up JDK
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
         with:
           distribution: 'temurin'
           java-version-file: '.java-version'
           cache: 'maven'
 
+      - name: Resolve dependency graph
+        run: |
+          mvn dependency:tree -DoutputFile=target/dependency-tree.txt --batch-mode --no-snapshot-updates --strict-checksums --file pom.xml
+          mvn test -DskipTests --batch-mode --no-snapshot-updates --strict-checksums --file pom.xml
+
+      - name: Verify locked build inputs
+        run: python3 scripts/verify-build-inputs.py
+
       - name: Submit Dependency Snapshot
-        if: ${{ github.event_name == 'push' }}
-        uses: advanced-security/maven-dependency-submission-action@v5.0.0
+        uses: advanced-security/maven-dependency-submission-action@b275d12641ac2d2108b2cbb7598b154ad2f2cee8 # v5.0.0
+        with:
+          maven-args: --no-snapshot-updates --strict-checksums

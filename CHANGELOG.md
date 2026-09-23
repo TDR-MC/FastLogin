@@ -1,5 +1,11 @@
 ### TDR-maintained fork (unreleased)
 
+* Pin GitHub Actions to immutable commits, scope workflow tokens, and run CodeQL directly on push/pull request rather
+  than through a privileged `workflow_run` chain.
+* Fix sqlite-jdbc to 3.53.4.0, record the resolved dependency graph and checksums for SNAPSHOT artifacts and inherited
+  system-scope JARs, and verify them before CI tests and packaging. Fix archive timestamps so clean source builds
+  produce byte-identical JARs.
+
 * Default the built-in anti-bot overflow action to fail-closed `block`; `ignore` bypasses all FastLogin pre-login
   handling, including premium-name reservation.
 * Fail closed when `autoRegister` cannot reliably classify an unknown username because Mojang's Name -> UUID lookup is

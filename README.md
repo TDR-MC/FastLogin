@@ -239,6 +239,11 @@ fork cut, CodeMC metadata does not publish `6.0.0-b2734` under that coordinate, 
 an unavailable artifact. Compatibility with the intended TDR AuthMe runtime must be established by the combined
 FastLogin/AuthMe adapter build and a physical login matrix before deployment.
 
+Build inputs are locked in [docs/BUILD_INPUTS.json](docs/BUILD_INPUTS.json), with the reproducible verification sequence
+and inherited binary provenance recorded in [docs/BUILD_PROVENANCE.md](docs/BUILD_PROVENANCE.md). GitHub CI checks the
+resolved dependency graph and hashes before tests and packaging. This is a source-build gate; it does not change the
+Minecraft 26.1.2 production target or approve the later 26.3 compatibility candidate.
+
 ### Supported auth plugins
 
 #### Spigot/Paper

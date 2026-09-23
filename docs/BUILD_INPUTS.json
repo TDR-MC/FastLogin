@@ -1,0 +1,167 @@
+{
+  "schema_version": 1,
+  "maven": [
+    {
+      "coordinate": "com.github.games647:craftapi",
+      "repository_path": "com/github/games647/craftapi/1.0-SNAPSHOT",
+      "artifact_id": "craftapi",
+      "version": "1.0-SNAPSHOT",
+      "resolved_version": "1.0-20260214.111430-4",
+      "jar_sha256": "8eac962619bcef5f3914bd3ffcc807578e8f9e1a02e14d0f3d3ccad948c421f1",
+      "pom_sha256": "f62d873a54851940694b9357e90f04d622d8def8cf8af103b4910fbb2101cd33"
+    },
+    {
+      "coordinate": "com.velocitypowered:velocity-api",
+      "repository_path": "com/velocitypowered/velocity-api/3.5.0-SNAPSHOT",
+      "artifact_id": "velocity-api",
+      "version": "3.5.0-SNAPSHOT",
+      "resolved_version": "3.5.0-20260711.003721-41",
+      "jar_sha256": "c4c3fcf3d5ef20bb7d5839211d6c27c57da4dbcc94cc44ecc304fa8dccb55ff0",
+      "pom_sha256": "65290559727a26c707537fe7e06ac9635708b4edaf895a1363cc06e4885b3524"
+    },
+    {
+      "coordinate": "com.velocitypowered:velocity-brigadier",
+      "repository_path": "com/velocitypowered/velocity-brigadier/1.0.0-SNAPSHOT",
+      "artifact_id": "velocity-brigadier",
+      "version": "1.0.0-SNAPSHOT",
+      "resolved_version": "1.0.0-20210613.082804-10",
+      "jar_sha256": "2d6646ed46d8052fc9f0d504309a0294d08a7c75d534fd84f11db0850cefdcb2",
+      "pom_sha256": "055ae7a2f0d9d77a5ac29a8df453374725f6674cb1d859308cd6dac552379903"
+    },
+    {
+      "coordinate": "net.md-5:bungeecord-api",
+      "repository_path": "net/md-5/bungeecord-api/1.20-R0.2-SNAPSHOT",
+      "artifact_id": "bungeecord-api",
+      "version": "1.20-R0.2-SNAPSHOT",
+      "resolved_version": "1.20-R0.2-20240119.213640-10",
+      "jar_sha256": "b049bc2235f7a175f487961994f137c668e122c7bc88a63f4500f6e0ef15c808",
+      "pom_sha256": "474c51df2dff7757bf2ed6370a71f727b7d75c467fb3110391992eb5e37eacc3"
+    },
+    {
+      "coordinate": "net.md-5:bungeecord-chat",
+      "repository_path": "net/md-5/bungeecord-chat/1.20-R0.2-SNAPSHOT",
+      "artifact_id": "bungeecord-chat",
+      "version": "1.20-R0.2-SNAPSHOT",
+      "resolved_version": "1.20-R0.2-20240119.213549-10",
+      "jar_sha256": "c015e980737ff8b9be31e62b0a645e28e047d361971d33cf4aa04b01cd1452c4",
+      "pom_sha256": "c1dd797e673f48bab6752e06f8eabba034ec9fd4e5028fbd6191571363e5e0fb"
+    },
+    {
+      "coordinate": "net.md-5:bungeecord-config",
+      "repository_path": "net/md-5/bungeecord-config/1.20-R0.2-SNAPSHOT",
+      "artifact_id": "bungeecord-config",
+      "version": "1.20-R0.2-SNAPSHOT",
+      "resolved_version": "1.20-R0.2-20240119.213606-10",
+      "jar_sha256": "bae8d47ad098ad4e42de8c63064b69e0101d3dc85e12c4740fde5857d9e56fd4",
+      "pom_sha256": "c09ffa4735145157ddd9e4259f9471fb091615d3bf5649572fca1bafe76f8ece"
+    },
+    {
+      "coordinate": "net.md-5:bungeecord-event",
+      "repository_path": "net/md-5/bungeecord-event/1.20-R0.2-SNAPSHOT",
+      "artifact_id": "bungeecord-event",
+      "version": "1.20-R0.2-SNAPSHOT",
+      "resolved_version": "1.20-R0.2-20240119.213614-10",
+      "jar_sha256": "3cd49deb9063672cc24da9984f86acd56d8bfa65fab2059cf34673eb4b06180c",
+      "pom_sha256": "d54c40ad568d656a1da0f2f9da7fe062579f4ce0bd570b66ad41fd1eca73ceec"
+    },
+    {
+      "coordinate": "net.md-5:bungeecord-log",
+      "repository_path": "net/md-5/bungeecord-log/1.20-R0.2-SNAPSHOT",
+      "artifact_id": "bungeecord-log",
+      "version": "1.20-R0.2-SNAPSHOT",
+      "resolved_version": "1.20-R0.2-20240119.213646-10",
+      "jar_sha256": "ec68bb25d559aa64b760a47672c6629d89f215c5a1477b41376b8e65e0259a73",
+      "pom_sha256": "a919e87967a92e2129649cc89a42ef3e0c2c5eea917d4fc32646a6ff32ba1a92"
+    },
+    {
+      "coordinate": "net.md-5:bungeecord-protocol",
+      "repository_path": "net/md-5/bungeecord-protocol/1.20-R0.2-SNAPSHOT",
+      "artifact_id": "bungeecord-protocol",
+      "version": "1.20-R0.2-SNAPSHOT",
+      "resolved_version": "1.20-R0.2-20240119.213629-10",
+      "jar_sha256": "429527d8180bc9e96bcbd43504f2984f91d54201bd1601dd5e3c15448c9df145",
+      "pom_sha256": "eb55260b4d03c183cc21187d7ed27811f25b169a6c08e9498d9d7c28618a7989"
+    },
+    {
+      "coordinate": "net.md-5:bungeecord-proxy",
+      "repository_path": "net/md-5/bungeecord-proxy/1.20-R0.2-SNAPSHOT",
+      "artifact_id": "bungeecord-proxy",
+      "version": "1.20-R0.2-SNAPSHOT",
+      "resolved_version": "1.20-R0.2-20240119.213723-10",
+      "jar_sha256": "5e4797460e4ece87894555b9bc104495c80f8376fccfe4d4692bbfc4d66d6bb4",
+      "pom_sha256": "01a62cb3b6c20a5b66d7b20a73382b649469fae07a1e5ed967c25c16a79e86a8"
+    },
+    {
+      "coordinate": "org.geysermc.event:events",
+      "repository_path": "org/geysermc/event/events/1.1-SNAPSHOT",
+      "artifact_id": "events",
+      "version": "1.1-SNAPSHOT",
+      "resolved_version": "1.1-20230815.153219-4",
+      "jar_sha256": "2d3530f40e64a7590e6f3129eb1edd2b4169793d397265c15d9709a248e60231",
+      "pom_sha256": "df6f99c16c6ccae64834e3f69b05a329ec4204f5447cd072ed253917898c72de"
+    },
+    {
+      "coordinate": "org.geysermc.floodgate:api",
+      "repository_path": "org/geysermc/floodgate/api/2.2.3-SNAPSHOT",
+      "artifact_id": "api",
+      "version": "2.2.3-SNAPSHOT",
+      "resolved_version": "2.2.3-20241105.185338-16",
+      "jar_sha256": "f407270cdece36ab5b73ff0dee8384cd324ad1556fe363131be9f565c24247b3",
+      "pom_sha256": "c6286415ddb3c7e6cfb02df57cd313ec524271f4528e14707388984e58348e11"
+    },
+    {
+      "coordinate": "org.geysermc.geyser:api",
+      "repository_path": "org/geysermc/geyser/api/2.2.1-SNAPSHOT",
+      "artifact_id": "api",
+      "version": "2.2.1-SNAPSHOT",
+      "resolved_version": "2.2.1-20240128.225244-3",
+      "jar_sha256": "ac4c07199471a9a60cc7e0824eca48db0eedb62bb200c9195543f87b18c1608b",
+      "pom_sha256": "d9c07521d85c9b827c9566fd18d3edbb77c5e42f379f1b30e1c2cfe38f0c8c03"
+    },
+    {
+      "coordinate": "org.geysermc.geyser:common",
+      "repository_path": "org/geysermc/geyser/common/2.2.1-SNAPSHOT",
+      "artifact_id": "common",
+      "version": "2.2.1-SNAPSHOT",
+      "resolved_version": "2.2.1-20240128.225244-3",
+      "jar_sha256": "21a8c7b95799031eec07f28c6a84f4e929f682cbcaccbee3b3119b9c19e3d312",
+      "pom_sha256": "0b657d572da8aaca905e0049a97b1488c4117e3c9bd91abff5a27bcd5ed91efd"
+    },
+    {
+      "coordinate": "org.geysermc.geyser:core",
+      "repository_path": "org/geysermc/geyser/core/2.2.1-SNAPSHOT",
+      "artifact_id": "core",
+      "version": "2.2.1-SNAPSHOT",
+      "resolved_version": "2.2.1-20240128.225244-3",
+      "jar_sha256": "73077f3b2c5cea90531bc285077376a3f6805bf7e5860bbc65ca1fb496f0f145",
+      "pom_sha256": "107a516382c9a471647cfd406a63ffadf6cb9294be494b98e82c36691f0bd111"
+    },
+    {
+      "coordinate": "org.xerial:sqlite-jdbc",
+      "repository_path": "org/xerial/sqlite-jdbc/3.53.4.0",
+      "artifact_id": "sqlite-jdbc",
+      "version": "3.53.4.0",
+      "resolved_version": "3.53.4.0",
+      "jar_sha256": "bcb1f51e36f940867e83342f9efbf5968ac44a6bef4d397bb4af7b17b45cd2fb",
+      "pom_sha256": "ff588556ba06aa68a568062f2cb9d243dde1f631eafd2010cfef23cab06a7ab9"
+    }
+  ],
+  "vendored": [
+    {
+      "path": "bukkit/lib/CrazyCore v10.7.7.jar",
+      "sha256": "ab82a8cf4af9ccb098956b002de0b988ad800dd78b4be60460a2157251d2c1d2"
+    },
+    {
+      "path": "bukkit/lib/CrazyLogin v7.23.2.jar",
+      "sha256": "8e2b6fa78339d68ce51b5a752746fe5b18e1a852018175d36701e2ff77c0b679"
+    },
+    {
+      "path": "bukkit/lib/UltraAuth v2.1.2.jar",
+      "sha256": "e6611830f7718668e6a50115aeadee0f6b9b2b70d774d1032f326b7a49832a61"
+    },
+    {
+      "path": "bungee/lib/BungeeAuth-1.4.jar",
+      "sha256": "9cd7b20edf8d0d825451deff5f24f06086aa710d4b01c686f3a37d2d90b538f7"
+    }
+  ]
+}
