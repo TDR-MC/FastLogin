@@ -7,6 +7,7 @@ name: Maven Build
 # Build on every pull request regardless of the branch
 # Wiki: https://help.github.com/en/actions/reference/events-that-trigger-workflows
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -42,12 +43,10 @@ jobs:
           cache: 'maven'
 
       - name: Resolve dependency graph
-        run: |
-          mvn dependency:tree -DoutputFile=target/dependency-tree.txt --batch-mode --no-snapshot-updates --strict-checksums --file pom.xml
-          mvn test -DskipTests --batch-mode --no-snapshot-updates --strict-checksums --file pom.xml
+        run: mvn dependency:tree -DoutputFile=target/dependency-tree.txt --batch-mode --no-snapshot-updates --strict-checksums --file pom.xml
 
       - name: Verify locked build inputs
-        run: python3 scripts/verify-build-inputs.py
+        run: python3 scripts/verify-build-inputs.py --resolve
 
       # Build and test (included in package)
       - name: Build with Maven and test
@@ -78,12 +77,10 @@ jobs:
           cache: 'maven'
 
       - name: Resolve dependency graph
-        run: |
-          mvn dependency:tree -DoutputFile=target/dependency-tree.txt --batch-mode --no-snapshot-updates --strict-checksums --file pom.xml
-          mvn test -DskipTests --batch-mode --no-snapshot-updates --strict-checksums --file pom.xml
+        run: mvn dependency:tree -DoutputFile=target/dependency-tree.txt --batch-mode --no-snapshot-updates --strict-checksums --file pom.xml
 
       - name: Verify locked build inputs
-        run: python3 scripts/verify-build-inputs.py
+        run: python3 scripts/verify-build-inputs.py --resolve
 
       - name: Submit Dependency Snapshot
         uses: advanced-security/maven-dependency-submission-action@b275d12641ac2d2108b2cbb7598b154ad2f2cee8 # v5.0.0

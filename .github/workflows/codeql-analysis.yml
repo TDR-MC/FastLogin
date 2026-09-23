@@ -4,6 +4,7 @@
 name: "CodeQL"
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
   pull_request:
@@ -54,12 +55,10 @@ jobs:
           cache: 'maven'
 
       - name: Resolve dependency graph
-        run: |
-          mvn dependency:tree -DoutputFile=target/dependency-tree.txt --batch-mode --no-snapshot-updates --strict-checksums --file pom.xml
-          mvn test -DskipTests --batch-mode --no-snapshot-updates --strict-checksums --file pom.xml
+        run: mvn dependency:tree -DoutputFile=target/dependency-tree.txt --batch-mode --no-snapshot-updates --strict-checksums --file pom.xml
 
       - name: Verify locked build inputs
-        run: python3 scripts/verify-build-inputs.py
+        run: python3 scripts/verify-build-inputs.py --resolve
 
       # Manually start the autobuild process, because autobuild always selects Java 8 as build toolchain, but
       # we are doing cross-crompiling from a newer Java version

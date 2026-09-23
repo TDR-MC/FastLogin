@@ -31,8 +31,11 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
+from xml.etree import ElementTree
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -54,6 +57,53 @@ def verify(path: Path, expected: str, label: str, errors: list[str]) -> None:
         errors.append(f"{label}: SHA-256 mismatch for {path}")
 
 
+def resolve_locked(lock: dict, maven_repo: Path, maven_bin: str) -> int:
+    """Fetch only locked artifacts; no FastLogin sources or processors run here."""
+    project = ElementTree.Element("project")
+    for key, value in (
+        ("modelVersion", "4.0.0"),
+        ("groupId", "ru.tdr.build"),
+        ("artifactId", "fastlogin-input-resolver"),
+        ("version", "1"),
+    ):
+        ElementTree.SubElement(project, key).text = value
+    repositories = ElementTree.SubElement(project, "repositories")
+    for source in lock["repositories"]:
+        repository = ElementTree.SubElement(repositories, "repository")
+        ElementTree.SubElement(repository, "id").text = source["id"]
+        ElementTree.SubElement(repository, "url").text = source["url"]
+    dependencies = ElementTree.SubElement(project, "dependencies")
+    for artifact in lock["maven"]:
+        group_id, artifact_id = artifact["coordinate"].split(":", 1)
+        dependency = ElementTree.SubElement(dependencies, "dependency")
+        ElementTree.SubElement(dependency, "groupId").text = group_id
+        ElementTree.SubElement(dependency, "artifactId").text = artifact_id
+        ElementTree.SubElement(dependency, "version").text = artifact["version"]
+        exclusions = ElementTree.SubElement(dependency, "exclusions")
+        exclusion = ElementTree.SubElement(exclusions, "exclusion")
+        ElementTree.SubElement(exclusion, "groupId").text = "*"
+        ElementTree.SubElement(exclusion, "artifactId").text = "*"
+    with tempfile.TemporaryDirectory(prefix="fastlogin-inputs-") as directory:
+        pom = Path(directory) / "pom.xml"
+        ElementTree.ElementTree(project).write(pom, encoding="utf-8", xml_declaration=True)
+        command = [
+            maven_bin,
+            "--batch-mode",
+            "--no-snapshot-updates",
+            "--strict-checksums",
+            f"-Dmaven.repo.local={maven_repo}",
+            "-f",
+            str(pom),
+            "org.apache.maven.plugins:maven-dependency-plugin:3.7.0:resolve",
+            "-DexcludeTransitive=true",
+        ]
+        try:
+            return subprocess.run(command, check=False).returncode
+        except FileNotFoundError:
+            print(f"Maven executable not found: {maven_bin}", file=sys.stderr)
+            return 1
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -62,8 +112,12 @@ def main() -> int:
         default=Path.home() / ".m2" / "repository",
         help="Maven local repository (default: ~/.m2/repository)",
     )
+    parser.add_argument("--resolve", action="store_true", help="resolve locked JARs without compiling sources")
+    parser.add_argument("--maven-bin", default="mvn", help="Maven executable for --resolve")
     args = parser.parse_args()
     lock = json.loads(LOCK.read_text(encoding="utf-8"))
+    if args.resolve and resolve_locked(lock, args.maven_repo, args.maven_bin) != 0:
+        return 1
     errors: list[str] = []
     count = 0
 

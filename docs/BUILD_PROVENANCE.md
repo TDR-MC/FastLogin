@@ -7,9 +7,10 @@ Minecraft 26.3 runtime compatibility or physical AuthMe login acceptance.
 ## How the build gate works
 
 1. Maven resolves the complete dependency graph to `*/target/dependency-tree.txt`.
-2. Maven compiles with tests skipped to populate its local repository. This phase does not run the test suite; Maven
-   plugins and annotation processors still execute.
-3. `scripts/verify-build-inputs.py` compares each resolved graph with `docs/dependency-tree/*.txt`, verifies SHA-256
+2. `scripts/verify-build-inputs.py --resolve` creates a temporary Maven POM from `BUILD_INPUTS.json`, resolves only
+   the locked JAR/POM inputs with transitive dependencies excluded, and then verifies them. This step does not compile
+   FastLogin sources or execute its annotation processors.
+3. The verifier compares each resolved graph with `docs/dependency-tree/*.txt`, verifies SHA-256
    for every resolved SNAPSHOT JAR and POM (both Maven's base alias and timestamped file), verifies the exact
    `sqlite-jdbc` 3.53.4.0 JAR/POM, and verifies the four vendored system-scope JARs.
 4. The full Maven test/package phase runs only after the lock passes. The parent POM fixes the archive entry timestamp
@@ -17,6 +18,8 @@ Minecraft 26.3 runtime compatibility or physical AuthMe login acceptance.
    Java 25.0.3 and the same locked Maven repository. GitHub workflows pin each Action to a full commit
    SHA. Build and CodeQL jobs use read permissions; the dependency submission job alone gets `contents: write` and only
    runs for pushes to `main`.
+   Both workflows also support a manual `workflow_dispatch` run on the selected `main` commit; the dependency
+   submission job runs only on a push.
 
 The lock closes the first-resolution gap left by `--no-snapshot-updates`: a fresh runner may resolve a different
 SNAPSHOT, but it fails before tests or packaging. An intentional dependency update requires an explicit lock refresh,
@@ -27,8 +30,7 @@ Run the same gate locally with Maven 3.9.11 and Java 25:
 
 ```sh
 mvn dependency:tree -DoutputFile=target/dependency-tree.txt --batch-mode --no-snapshot-updates --strict-checksums
-mvn test -DskipTests --batch-mode --no-snapshot-updates --strict-checksums
-python3 scripts/verify-build-inputs.py
+python3 scripts/verify-build-inputs.py --resolve
 mvn package --batch-mode --no-snapshot-updates --strict-checksums
 ```
 

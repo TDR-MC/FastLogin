@@ -1,5 +1,11 @@
 {
   "schema_version": 1,
+  "repositories": [
+    {"id": "papermc-lock", "url": "https://repo.papermc.io/repository/maven-public/"},
+    {"id": "opencollab-snapshots-lock", "url": "https://repo.opencollab.dev/maven-snapshots/"},
+    {"id": "opencollab-main-lock", "url": "https://repo.opencollab.dev/main/"},
+    {"id": "codemc-lock", "url": "https://repo.codemc.io/repository/maven-public/"}
+  ],
   "maven": [
     {
       "coordinate": "com.github.games647:craftapi",
