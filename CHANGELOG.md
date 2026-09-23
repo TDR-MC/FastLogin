@@ -7,6 +7,8 @@
   produce byte-identical JARs.
 * Resolve locked JARs through a temporary dependency-only POM, allowing the checksum gate to run before Velocity's
   annotation processor or any FastLogin compilation.
+* Remove GitHub dependency snapshot submission because the repository's Dependency Graph is disabled; CI keeps the
+  checked-in dependency lock and no longer needs a repository write token.
 
 * Default the built-in anti-bot overflow action to fail-closed `block`; `ignore` bypasses all FastLogin pre-login
   handling, including premium-name reservation.

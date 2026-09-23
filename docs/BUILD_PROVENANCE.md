@@ -16,10 +16,10 @@ Minecraft 26.3 runtime compatibility or physical AuthMe login acceptance.
 4. The full Maven test/package phase runs only after the lock passes. The parent POM fixes the archive entry timestamp
    for this fork build; two clean source copies produced byte-identical Core, Bukkit, Bungee, and Velocity JARs under
    Java 25.0.3 and the same locked Maven repository. GitHub workflows pin each Action to a full commit
-   SHA. Build and CodeQL jobs use read permissions; the dependency submission job alone gets `contents: write` and only
-   runs for pushes to `main`.
-   Both workflows also support a manual `workflow_dispatch` run on the selected `main` commit; the dependency
-   submission job runs only on a push.
+   SHA. Build and CodeQL jobs use read permissions and support a manual `workflow_dispatch` run on `main`.
+
+The repository's GitHub Dependency Graph is disabled, so CI does not submit a dependency snapshot or request a
+repository write token. The committed graph and checksum gate are the source-build evidence.
 
 The lock closes the first-resolution gap left by `--no-snapshot-updates`: a fresh runner may resolve a different
 SNAPSHOT, but it fails before tests or packaging. An intentional dependency update requires an explicit lock refresh,
@@ -43,7 +43,7 @@ For an isolated Maven repository, add `-Dmaven.repo.local=/path/to/repo` to ever
 | --- | --- | --- |
 | Geyser and Floodgate SNAPSHOTs | OpenCollab Maven repositories declared in `core/pom.xml` and related module POMs | Exact timestamp and bytes in `BUILD_INPUTS.json`; publisher signature is not independently verified |
 | Velocity API and Brigadier SNAPSHOTs | PaperMC/Velocity Maven repositories declared in `velocity/pom.xml` | Exact timestamp and bytes; Velocity API snapshot is not runtime build 605 |
-| BungeeCord SNAPSHOTs | md-5 Maven repository declared in `bungee/pom.xml` | Exact timestamp and bytes; legacy Bungee module is outside the TDR runtime compatibility promise |
+| BungeeCord SNAPSHOTs | CodeMC Maven repository declared in `bungee/pom.xml` | Exact timestamp and bytes; legacy Bungee module is outside the TDR runtime compatibility promise |
 | CraftAPI SNAPSHOT | CodeMC repository declared in `core/pom.xml` | Exact timestamp and bytes |
 | sqlite-jdbc | Maven Central, exact version 3.53.4.0 | Provided dependency; the runtime may supply a different driver |
 | `bukkit/lib/CrazyCore v10.7.7.jar` | Inherited Git-tracked binary, added in upstream history at `f8c10d68` | Original distributor URL/signature is not retained |
