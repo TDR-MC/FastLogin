@@ -16,7 +16,8 @@ Minecraft 26.3 runtime compatibility or physical AuthMe login acceptance.
 4. The full Maven test/package phase runs only after the lock passes. The parent POM fixes the archive entry timestamp
    for this fork build; two clean source copies produced byte-identical Core, Bukkit, Bungee, and Velocity JARs under
    Java 25.0.3 and the same locked Maven repository. GitHub workflows pin each Action to a full commit
-   SHA. Build and CodeQL jobs use read permissions and support a manual `workflow_dispatch` run on `main`.
+   SHA. Maven Build has `contents: read`; CodeQL has `contents: read` plus `security-events: write` for SARIF upload.
+   Neither workflow has `contents: write`. Both support manual `workflow_dispatch` runs on `main`.
 
 The repository's GitHub Dependency Graph is disabled, so CI does not submit a dependency snapshot or request a
 repository write token. The committed graph and checksum gate are the source-build evidence.
