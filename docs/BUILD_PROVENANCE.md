@@ -69,3 +69,11 @@ cover core+proxy+backend units; the combined 26.3 backend connection contract st
 Primary API inputs: [Velocity 4.3.1 POM](https://repo.papermc.io/repository/maven-public/com/velocitypowered/velocity-api/4.3.1/velocity-api-4.3.1.pom),
 [Velocity 4.3.1 source](https://github.com/PaperMC/Velocity/tree/300f5d0823691c8c8bace0c91714c63ab52e0b77),
 [Brigadier metadata](https://repo.papermc.io/repository/maven-public/com/velocitypowered/velocity-brigadier/1.0.0-SNAPSHOT/maven-metadata.xml).
+
+### DEV integration CI,10.11.2026
+
+Both Maven Build and CodeQL run for pushes and PRs targeting `dev` as well as
+`main`. `.java-version` pins Temurin25.0.3+9 for these native Maven workflows;
+the local release admission records the actual compiler vendor/build separately.
+No workflow receives a deployment credential or restarts a server. Stable `main`
+does not update parked PROD. Existing checksum and test steps are unchanged.
