@@ -218,21 +218,6 @@
             </exclusions>
         </dependency>
 
-        <!--Changing onlinemode on login process-->
-        <dependency>
-            <groupId>com.github.ProtocolSupport</groupId>
-            <artifactId>ProtocolSupport</artifactId>
-            <!--4.29.dev after commit about API improvements-->
-            <version>master-66b494a8dd-1</version>
-            <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
         <!--Floodgate for Xbox Live Authentication-->
         <dependency>
             <groupId>org.geysermc.floodgate</groupId>

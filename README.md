@@ -270,7 +270,7 @@ This plugin performs network requests to:
 
 ### Spigot/Paper
 
-1. Download and install ProtocolLib/ProtocolSupport
+1. Download and install ProtocolLib. This modern TDR fork no longer includes the legacy ProtocolSupport adapter.
 2. Download and install `FastLoginBukkit`
 3. Set your server in offline mode by setting the value `onlinemode` in your server.properties to `false`
 

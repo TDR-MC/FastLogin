@@ -15,8 +15,7 @@ dev-url: ${project.url}
 api-version: '1.13'
 
 softdepend:
-    # We depend on either ProtocolLib or ProtocolSupport
-    - ProtocolSupport
+    # Standalone Bukkit requires ProtocolLib; proxy mode has its own login path.
     - ProtocolLib
     # Premium variable
     - PlaceholderAPI

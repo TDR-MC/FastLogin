@@ -34,7 +34,6 @@ import com.github.games647.fastlogin.bukkit.listener.PaperCacheListener;
 import com.github.games647.fastlogin.bukkit.listener.PaperPremiumClaimListener;
 import com.github.games647.fastlogin.bukkit.listener.protocollib.ProtocolLibListener;
 import com.github.games647.fastlogin.bukkit.listener.protocollib.SkinApplyListener;
-import com.github.games647.fastlogin.bukkit.listener.protocolsupport.ProtocolSupportListener;
 import com.github.games647.fastlogin.bukkit.task.DelayedAuthHook;
 import com.github.games647.fastlogin.core.CommonUtil;
 import com.github.games647.fastlogin.core.PremiumStatus;
@@ -119,9 +118,7 @@ public class FastLoginBukkit extends JavaPlugin implements PlatformPlugin<Comman
             }
 
             AntiBotService antiBotService = core.getAntiBotService();
-            if (pluginManager.isPluginEnabled("ProtocolSupport")) {
-                pluginManager.registerEvents(new ProtocolSupportListener(this, antiBotService), this);
-            } else if (pluginManager.isPluginEnabled("ProtocolLib")) {
+            if (pluginManager.isPluginEnabled("ProtocolLib")) {
                 ProtocolLibListener.register(this, antiBotService, core.getConfig().getBoolean("verifyClientKeys"));
 
                 //if server is using paper - we need to set the skin at pre login anyway, so no need for this listener
@@ -129,7 +126,7 @@ public class FastLoginBukkit extends JavaPlugin implements PlatformPlugin<Comman
                     pluginManager.registerEvents(new SkinApplyListener(this), this);
                 }
             } else {
-                logger.warn("Either ProtocolLib or ProtocolSupport have to be installed if you don't use BungeeCord");
+                logger.warn("ProtocolLib has to be installed if you don't use a supported proxy");
                 setEnabled(false);
                 return;
             }
