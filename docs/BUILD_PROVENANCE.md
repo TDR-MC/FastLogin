@@ -8,9 +8,13 @@ Minecraft 26.3 runtime compatibility or physical AuthMe login acceptance.
 ## How the build gate works
 
 1. Maven resolves the complete dependency graph to `*/target/dependency-tree.txt`.
-2. `scripts/verify-build-inputs.py --resolve` creates a temporary Maven POM from `BUILD_INPUTS.json`, resolves only
-   the locked JAR/POM inputs with transitive dependencies excluded, and then verifies them. This step does not compile
-   FastLogin sources or execute its annotation processors.
+2. `scripts/verify-build-inputs.py --resolve` creates temporary Maven POM batches from `BUILD_INPUTS.json`.
+   Each batch contains a coordinate (`groupId:artifactId`) once, so Maven cannot reject duplicate declarations or
+   mediate away another locked version. Every locked version is requested exactly once across the batches; the first
+   failed batch stops the gate. The fixed dependency-plugin 3.7.0 resolves only the locked JAR/POM inputs with transitive
+   dependencies excluded, and the existing hash/tree checks then verify them all. This step does not compile FastLogin
+   sources or execute its annotation processors. The focused construction regression runs with
+   `python3 -B -m unittest discover -s scripts/tests -p test_verify_build_inputs.py`.
 3. The verifier compares each resolved graph with `docs/dependency-tree/*.txt`, verifies SHA-256
    for every locked JAR and POM (both Maven's base alias and timestamped file where the coordinate remains a SNAPSHOT), verifies the exact
    `sqlite-jdbc` 3.53.4.0 JAR/POM, and verifies the four vendored system-scope JARs.

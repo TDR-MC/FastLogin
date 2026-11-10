@@ -57,8 +57,22 @@ def verify(path: Path, expected: str, label: str, errors: list[str]) -> None:
         errors.append(f"{label}: SHA-256 mismatch for {path}")
 
 
-def resolve_locked(lock: dict, maven_repo: Path, maven_bin: str) -> int:
-    """Fetch only locked artifacts; no FastLogin sources or processors run here."""
+def resolution_batches(artifacts: list[dict]) -> list[list[dict]]:
+    """Keep every locked version, with each G:A appearing once per Maven model."""
+    batches: list[list[dict]] = []
+    occurrences: dict[str, int] = {}
+    for artifact in artifacts:
+        coordinate = artifact["coordinate"]
+        index = occurrences.get(coordinate, 0)
+        occurrences[coordinate] = index + 1
+        if index == len(batches):
+            batches.append([])
+        batches[index].append(artifact)
+    return batches
+
+
+def resolver_project(lock: dict, artifacts: list[dict]) -> ElementTree.Element:
+    """Create one conflict-free project without touching the FastLogin POMs."""
     project = ElementTree.Element("project")
     for key, value in (
         ("modelVersion", "4.0.0"),
@@ -73,7 +87,7 @@ def resolve_locked(lock: dict, maven_repo: Path, maven_bin: str) -> int:
         ElementTree.SubElement(repository, "id").text = source["id"]
         ElementTree.SubElement(repository, "url").text = source["url"]
     dependencies = ElementTree.SubElement(project, "dependencies")
-    for artifact in lock["maven"]:
+    for artifact in artifacts:
         group_id, artifact_id = artifact["coordinate"].split(":", 1)
         dependency = ElementTree.SubElement(dependencies, "dependency")
         ElementTree.SubElement(dependency, "groupId").text = group_id
@@ -83,25 +97,36 @@ def resolve_locked(lock: dict, maven_repo: Path, maven_bin: str) -> int:
         exclusion = ElementTree.SubElement(exclusions, "exclusion")
         ElementTree.SubElement(exclusion, "groupId").text = "*"
         ElementTree.SubElement(exclusion, "artifactId").text = "*"
+    return project
+
+
+def resolve_locked(lock: dict, maven_repo: Path, maven_bin: str) -> int:
+    """Fetch all locked versions without Maven mediation or source compilation."""
     with tempfile.TemporaryDirectory(prefix="fastlogin-inputs-") as directory:
-        pom = Path(directory) / "pom.xml"
-        ElementTree.ElementTree(project).write(pom, encoding="utf-8", xml_declaration=True)
-        command = [
-            maven_bin,
-            "--batch-mode",
-            "--no-snapshot-updates",
-            "--strict-checksums",
-            f"-Dmaven.repo.local={maven_repo}",
-            "-f",
-            str(pom),
-            "org.apache.maven.plugins:maven-dependency-plugin:3.7.0:resolve",
-            "-DexcludeTransitive=true",
-        ]
-        try:
-            return subprocess.run(command, check=False).returncode
-        except FileNotFoundError:
-            print(f"Maven executable not found: {maven_bin}", file=sys.stderr)
-            return 1
+        for index, artifacts in enumerate(resolution_batches(lock["maven"])):
+            pom = Path(directory) / f"pom-{index}.xml"
+            ElementTree.ElementTree(resolver_project(lock, artifacts)).write(
+                pom, encoding="utf-8", xml_declaration=True
+            )
+            command = [
+                maven_bin,
+                "--batch-mode",
+                "--no-snapshot-updates",
+                "--strict-checksums",
+                f"-Dmaven.repo.local={maven_repo}",
+                "-f",
+                str(pom),
+                "org.apache.maven.plugins:maven-dependency-plugin:3.7.0:resolve",
+                "-DexcludeTransitive=true",
+            ]
+            try:
+                result = subprocess.run(command, check=False).returncode
+            except FileNotFoundError:
+                print(f"Maven executable not found: {maven_bin}", file=sys.stderr)
+                return 1
+            if result != 0:
+                return result
+    return 0
 
 
 def main() -> int:
