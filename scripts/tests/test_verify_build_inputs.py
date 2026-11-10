@@ -4,7 +4,7 @@
 #
 # The MIT License (MIT)
 #
-# Copyright (c) 2026 TDR-MC contributors
+# Copyright (c) 2015-2024 games647 and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
-"""Regression coverage for resolving distinct locked versions without Maven mediation."""
+
+"""Regression coverage for resolving distinct locked versions without Maven mediation.
+
+Resolver regression additions Copyright (c) 2026 TDR-MC contributors.
+"""
 
 import importlib.util
 import json
