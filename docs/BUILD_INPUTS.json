@@ -1,10 +1,22 @@
 {
   "schema_version": 1,
   "repositories": [
-    {"id": "papermc-lock", "url": "https://repo.papermc.io/repository/maven-public/"},
-    {"id": "opencollab-snapshots-lock", "url": "https://repo.opencollab.dev/maven-snapshots/"},
-    {"id": "opencollab-main-lock", "url": "https://repo.opencollab.dev/main/"},
-    {"id": "codemc-lock", "url": "https://repo.codemc.io/repository/maven-public/"}
+    {
+      "id": "papermc-lock",
+      "url": "https://repo.papermc.io/repository/maven-public/"
+    },
+    {
+      "id": "opencollab-snapshots-lock",
+      "url": "https://repo.opencollab.dev/maven-snapshots/"
+    },
+    {
+      "id": "opencollab-main-lock",
+      "url": "https://repo.opencollab.dev/main/"
+    },
+    {
+      "id": "codemc-lock",
+      "url": "https://repo.codemc.io/repository/maven-public/"
+    }
   ],
   "maven": [
     {
@@ -18,21 +30,21 @@
     },
     {
       "coordinate": "com.velocitypowered:velocity-api",
-      "repository_path": "com/velocitypowered/velocity-api/3.5.0-SNAPSHOT",
+      "repository_path": "com/velocitypowered/velocity-api/4.3.1",
       "artifact_id": "velocity-api",
-      "version": "3.5.0-SNAPSHOT",
-      "resolved_version": "3.5.0-20260711.003721-41",
-      "jar_sha256": "c4c3fcf3d5ef20bb7d5839211d6c27c57da4dbcc94cc44ecc304fa8dccb55ff0",
-      "pom_sha256": "65290559727a26c707537fe7e06ac9635708b4edaf895a1363cc06e4885b3524"
+      "version": "4.3.1",
+      "resolved_version": "4.3.1",
+      "jar_sha256": "c0c662e9a563a4530894a81c7c2cf0b8f149d24ad6263725bb6c92c20d8e8dd3",
+      "pom_sha256": "d92c6f8db041ac64c3db1d4d7a695ce6d70c07af96e5456b14174baffda95a98"
     },
     {
       "coordinate": "com.velocitypowered:velocity-brigadier",
       "repository_path": "com/velocitypowered/velocity-brigadier/1.0.0-SNAPSHOT",
       "artifact_id": "velocity-brigadier",
-      "version": "1.0.0-SNAPSHOT",
-      "resolved_version": "1.0.0-20210613.082804-10",
-      "jar_sha256": "2d6646ed46d8052fc9f0d504309a0294d08a7c75d534fd84f11db0850cefdcb2",
-      "pom_sha256": "055ae7a2f0d9d77a5ac29a8df453374725f6674cb1d859308cd6dac552379903"
+      "version": "1.0.0-20261110.144108-12",
+      "resolved_version": "1.0.0-20261110.144108-12",
+      "jar_sha256": "714f580a42a423b1d2eb844bbb40dec952c48109aa52828542f4eabe5fc57eb7",
+      "pom_sha256": "465ef4f86d25607ff952f7887db11f4afb2e12fda6db066a509e74a0d6e27cdd"
     },
     {
       "coordinate": "net.md-5:bungeecord-api",
@@ -150,6 +162,222 @@
       "resolved_version": "3.53.4.0",
       "jar_sha256": "bcb1f51e36f940867e83342f9efbf5968ac44a6bef4d397bb4af7b17b45cd2fb",
       "pom_sha256": "ff588556ba06aa68a568062f2cb9d243dde1f631eafd2010cfef23cab06a7ab9"
+    },
+    {
+      "coordinate": "com.github.ben-manes.caffeine:caffeine",
+      "repository_path": "com/github/ben-manes/caffeine/caffeine/3.3.1",
+      "artifact_id": "caffeine",
+      "version": "3.3.1",
+      "resolved_version": "3.3.1",
+      "jar_sha256": "1f916d052a3f8c0c10951f343f043f176ff2d3c2f9e380e15f0be673c5e67c48",
+      "pom_sha256": "b511f0cbd2971826561342268f25f7a68b7899a3a77202a36c998e55e166d3e7"
+    },
+    {
+      "coordinate": "com.google.code.gson:gson",
+      "repository_path": "com/google/code/gson/gson/2.14.0",
+      "artifact_id": "gson",
+      "version": "2.14.0",
+      "resolved_version": "2.14.0",
+      "jar_sha256": "2cbd119bf1961c28788310963dc80ba65f58cdeec1dd139c8bdb1240faa2c36f",
+      "pom_sha256": "1fa0122c0e3733192642861c36be4c6f799a795327a23bdd2922691b6e9ba480"
+    },
+    {
+      "coordinate": "com.google.errorprone:error_prone_annotations",
+      "repository_path": "com/google/errorprone/error_prone_annotations/2.48.0",
+      "artifact_id": "error_prone_annotations",
+      "version": "2.48.0",
+      "resolved_version": "2.48.0",
+      "jar_sha256": "b49c5c958316ed67a09c699dda9aa749caf434d51d863dea599ef36a49b9c855",
+      "pom_sha256": "189e09ad0489c325e90daaa9d5c8f406330602fa366609bca07cbcdad03ab9da"
+    },
+    {
+      "coordinate": "com.google.guava:guava",
+      "repository_path": "com/google/guava/guava/33.7.2-jre",
+      "artifact_id": "guava",
+      "version": "33.7.2-jre",
+      "resolved_version": "33.7.2-jre",
+      "jar_sha256": "b530942257fb935f8b2cfaa5f8eb5bd59c555fd8e8d01b8ce98912e077ea606c",
+      "pom_sha256": "5d1501a97230f90df54ea33164831a61c6714a8b2a4c6a04e90bb729581bbabc"
+    },
+    {
+      "coordinate": "net.kyori:adventure-api",
+      "repository_path": "net/kyori/adventure-api/5.2.0",
+      "artifact_id": "adventure-api",
+      "version": "5.2.0",
+      "resolved_version": "5.2.0",
+      "jar_sha256": "7e52fe7190be3e87b3b3f71712cfa12315fcd27109f302a7b440c12f01fae827",
+      "pom_sha256": "d00ddfa10725db663c8f6963494d49a3365a2163f968edb71947aa7ce240efb3"
+    },
+    {
+      "coordinate": "net.kyori:adventure-key",
+      "repository_path": "net/kyori/adventure-key/5.2.0",
+      "artifact_id": "adventure-key",
+      "version": "5.2.0",
+      "resolved_version": "5.2.0",
+      "jar_sha256": "0184d173200e2eef8fbc791f622d1d58fd459f8930c616b5a4fe79e83eda6c55",
+      "pom_sha256": "cad87f55971c5e992d43d8edd3a6f95f22a9adf13d6478f96b33479adb787d78"
+    },
+    {
+      "coordinate": "net.kyori:adventure-text-logger-slf4j",
+      "repository_path": "net/kyori/adventure-text-logger-slf4j/5.2.0",
+      "artifact_id": "adventure-text-logger-slf4j",
+      "version": "5.2.0",
+      "resolved_version": "5.2.0",
+      "jar_sha256": "ae79b7f3846c5d973b37c7eec03190bd44e182918d1346e7705c5991a1b5dfb3",
+      "pom_sha256": "1e08a0133b5b0e669e9a980ac34c581ae53e47a3d9e44ebd7296b5afaa9fd51a"
+    },
+    {
+      "coordinate": "net.kyori:adventure-text-minimessage",
+      "repository_path": "net/kyori/adventure-text-minimessage/5.2.0",
+      "artifact_id": "adventure-text-minimessage",
+      "version": "5.2.0",
+      "resolved_version": "5.2.0",
+      "jar_sha256": "e1871aba1511dbe49cff211c10f85682886014161e5d629318aa69583c31a2c0",
+      "pom_sha256": "8d340a7ddd41f9a816b34f1fb4e63bbd5999c6b89b989fbfb2cfa7906b812c60"
+    },
+    {
+      "coordinate": "net.kyori:adventure-text-serializer-ansi",
+      "repository_path": "net/kyori/adventure-text-serializer-ansi/5.2.0",
+      "artifact_id": "adventure-text-serializer-ansi",
+      "version": "5.2.0",
+      "resolved_version": "5.2.0",
+      "jar_sha256": "9229d090832e288018f3df69027602dcda253118358585dc2728f84597e9ca9d",
+      "pom_sha256": "8c68530545a0a6fc8280414de47d715177589ea0be307157e67b47104e04a592"
+    },
+    {
+      "coordinate": "net.kyori:adventure-text-serializer-commons",
+      "repository_path": "net/kyori/adventure-text-serializer-commons/5.2.0",
+      "artifact_id": "adventure-text-serializer-commons",
+      "version": "5.2.0",
+      "resolved_version": "5.2.0",
+      "jar_sha256": "64b3e45d93aa57f4da9b257d16c8f2172612d9e3312b061f4892fd426922d2c3",
+      "pom_sha256": "b94a09a3c618fbaaf8e8c1a57737cdaa55ff4e2ab6835eae7470d73651a58346"
+    },
+    {
+      "coordinate": "net.kyori:adventure-text-serializer-gson",
+      "repository_path": "net/kyori/adventure-text-serializer-gson/5.2.0",
+      "artifact_id": "adventure-text-serializer-gson",
+      "version": "5.2.0",
+      "resolved_version": "5.2.0",
+      "jar_sha256": "5b2ad1c8a65e7fa0811279b51a45d5fc574b6a6354097b545e4fdb5b68aaed73",
+      "pom_sha256": "6825854e5c198faa28292685591135863abb069cef3a96b6b1e85c924fee8a17"
+    },
+    {
+      "coordinate": "net.kyori:adventure-text-serializer-json",
+      "repository_path": "net/kyori/adventure-text-serializer-json/5.2.0",
+      "artifact_id": "adventure-text-serializer-json",
+      "version": "5.2.0",
+      "resolved_version": "5.2.0",
+      "jar_sha256": "adb5410006175b9aa6343bfadd0bd11c4a6955ee2abc1a58abe2a3fa6cbd9ab5",
+      "pom_sha256": "dc35d4c00a6ff8865745d7d5cfa9a396d8f426d2eeac7a71f17922630a7cb30e"
+    },
+    {
+      "coordinate": "net.kyori:adventure-text-serializer-legacy",
+      "repository_path": "net/kyori/adventure-text-serializer-legacy/5.2.0",
+      "artifact_id": "adventure-text-serializer-legacy",
+      "version": "5.2.0",
+      "resolved_version": "5.2.0",
+      "jar_sha256": "1231a0de417de66c59e2f2a3892ecca6b8d48621df6f1d9a2f81b01f57e328b7",
+      "pom_sha256": "12f2ad1ce4c18d42a603a77ccf99e236edf6da1c2e4072a12c8ff0c3846d1276"
+    },
+    {
+      "coordinate": "net.kyori:adventure-text-serializer-plain",
+      "repository_path": "net/kyori/adventure-text-serializer-plain/5.2.0",
+      "artifact_id": "adventure-text-serializer-plain",
+      "version": "5.2.0",
+      "resolved_version": "5.2.0",
+      "jar_sha256": "f6424cc038a631b79cc4b74b6b353d5d007c99b38f9be482e0c2448a00eecd21",
+      "pom_sha256": "90099868f9119347c1fd52b8768688dd1cae011e218c78f3269e7232ac42c884"
+    },
+    {
+      "coordinate": "org.checkerframework:checker-qual",
+      "repository_path": "org/checkerframework/checker-qual/4.3.1",
+      "artifact_id": "checker-qual",
+      "version": "4.3.1",
+      "resolved_version": "4.3.1",
+      "jar_sha256": "66c061a19e20fb005c173169534aba7bf78e904a8a6da6fe8c6e97d277f6d347",
+      "pom_sha256": "a95730e7f1e972688ff7959feedd152314416864c0938a41a73c0b7aa5a125ef"
+    },
+    {
+      "coordinate": "org.jetbrains:annotations",
+      "repository_path": "org/jetbrains/annotations/26.1.0",
+      "artifact_id": "annotations",
+      "version": "26.1.0",
+      "resolved_version": "26.1.0",
+      "jar_sha256": "ebc7aec252ed0c7d2d04c039d7f00e69f7b86b1f493c741d67b3ef31b986b054",
+      "pom_sha256": "f8dc50cf3aac4bcec740a90955f2800e41251e9c403630b75b752d3b6ef5bee2"
+    },
+    {
+      "coordinate": "org.jspecify:jspecify",
+      "repository_path": "org/jspecify/jspecify/1.0.1",
+      "artifact_id": "jspecify",
+      "version": "1.0.1",
+      "resolved_version": "1.0.1",
+      "jar_sha256": "070d75f261fe4c5b8202508366715f7f2d4660f88c8ef7e6d3575e48c9683b66",
+      "pom_sha256": "55b38bf1a7b1d8ea518cf2f4f3ae9aaa236e61bbf0b6bd31ffb49753a059dd5e"
+    },
+    {
+      "coordinate": "org.slf4j:slf4j-api",
+      "repository_path": "org/slf4j/slf4j-api/2.0.20",
+      "artifact_id": "slf4j-api",
+      "version": "2.0.20",
+      "resolved_version": "2.0.20",
+      "jar_sha256": "7e1446499b359675d8aabe6af2de86b85e72ae8a2a932c0b40d0e5ba57097439",
+      "pom_sha256": "2e625c3f553cddd49f8554cea9926cbf70673b3d6833464f0c5a02f4d9130594"
+    },
+    {
+      "coordinate": "com.google.errorprone:error_prone_annotations",
+      "repository_path": "com/google/errorprone/error_prone_annotations/2.47.0",
+      "artifact_id": "error_prone_annotations",
+      "version": "2.47.0",
+      "resolved_version": "2.47.0",
+      "jar_sha256": "5364bc6f22e72e98195e406a58d3ba1c09ffa11dea0729592cb870dc2de4056d",
+      "pom_sha256": "d80c889a4a6f711f6945fbee79e05ec247b178a567e9d5abf58eb26ebf0a0752"
+    },
+    {
+      "coordinate": "com.google.guava:guava",
+      "repository_path": "com/google/guava/guava/33.6.0-jre",
+      "artifact_id": "guava",
+      "version": "33.6.0-jre",
+      "resolved_version": "33.6.0-jre",
+      "jar_sha256": "dc573e1fca4fd5454f4a5fd3d7da2df03002876a4175bafc14a95980dd7713b3",
+      "pom_sha256": "b45b78944280054311c53da9270809fb40dcabc408ce66ce55730099b4f57d32"
+    },
+    {
+      "coordinate": "com.mojang:brigadier",
+      "repository_path": "com/mojang/brigadier/1.3.11",
+      "artifact_id": "brigadier",
+      "version": "1.3.11",
+      "resolved_version": "1.3.11",
+      "jar_sha256": "9d09cf4819de83dfcd38bcb212d5f2227131791cef3abbfca3321d6fb2b9a64d",
+      "pom_sha256": "b127fb6ff506e1a582ab3704714c0d5e171309c02ff2400469d07225fb8f2e72"
+    },
+    {
+      "coordinate": "io.papermc.paper:paper-api",
+      "repository_path": "io/papermc/paper/paper-api/26.3.build.248-stable",
+      "artifact_id": "paper-api",
+      "version": "26.3.build.248-stable",
+      "resolved_version": "26.3.build.248-stable",
+      "jar_sha256": "ade905831b88d6933b5819b587945c72437419422e5aa636622940aa7f82dece",
+      "pom_sha256": "1b8bf24019e899ad83b95627e3108b689fb4a07d63bc1933f5e9da4db1d7d85a"
+    },
+    {
+      "coordinate": "org.checkerframework:checker-qual",
+      "repository_path": "org/checkerframework/checker-qual/4.2.3",
+      "artifact_id": "checker-qual",
+      "version": "4.2.3",
+      "resolved_version": "4.2.3",
+      "jar_sha256": "f868f731f6e37db3e1c2140d06016477989959a2d13fc5bed9c46760cffd5ba0",
+      "pom_sha256": "d79175c27434ad139beda84a84206ed6b9d87074482d4c5047793a9df55394af"
+    },
+    {
+      "coordinate": "org.joml:joml",
+      "repository_path": "org/joml/joml/1.10.9",
+      "artifact_id": "joml",
+      "version": "1.10.9",
+      "resolved_version": "1.10.9",
+      "jar_sha256": "feca4db853371704338621c120acc5cc32300d8af635fa42414b6213301e216b",
+      "pom_sha256": "d5e047e8cae7e021a7b0a96ea406fa6831be7741172331e3c32b62d715bcf016"
     }
   ],
   "vendored": [

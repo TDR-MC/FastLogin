@@ -1,6 +1,7 @@
 # FastLogin build inputs and provenance
 
-This fork currently targets Minecraft/Paper 26.1.2, Velocity runtime build 605, and Java 25. The version and SHA-256
+This candidate source build targets immutable Velocity API 4.3.1 and Java 25 for Minecraft26.3. Runtime build45,
+the proxy patch and AuthMe6.0.1 integration require separate acceptance. The previous runtime target remains26.1.2/build605. The version and SHA-256
 locks in [BUILD_INPUTS.json](BUILD_INPUTS.json) record the inputs used for this source build. They do not establish
 Minecraft 26.3 runtime compatibility or physical AuthMe login acceptance.
 
@@ -11,7 +12,7 @@ Minecraft 26.3 runtime compatibility or physical AuthMe login acceptance.
    the locked JAR/POM inputs with transitive dependencies excluded, and then verifies them. This step does not compile
    FastLogin sources or execute its annotation processors.
 3. The verifier compares each resolved graph with `docs/dependency-tree/*.txt`, verifies SHA-256
-   for every resolved SNAPSHOT JAR and POM (both Maven's base alias and timestamped file), verifies the exact
+   for every locked JAR and POM (both Maven's base alias and timestamped file where the coordinate remains a SNAPSHOT), verifies the exact
    `sqlite-jdbc` 3.53.4.0 JAR/POM, and verifies the four vendored system-scope JARs.
 4. The full Maven test/package phase runs only after the lock passes. The parent POM fixes the archive entry timestamp
    for this fork build; two clean source copies produced byte-identical Core, Bukkit, Bungee, and Velocity JARs under
@@ -43,7 +44,7 @@ For an isolated Maven repository, add `-Dmaven.repo.local=/path/to/repo` to ever
 | Input | Resolved source | Provenance boundary |
 | --- | --- | --- |
 | Geyser and Floodgate SNAPSHOTs | OpenCollab Maven repositories declared in `core/pom.xml` and related module POMs | Exact timestamp and bytes in `BUILD_INPUTS.json`; publisher signature is not independently verified |
-| Velocity API and Brigadier SNAPSHOTs | PaperMC/Velocity Maven repositories declared in `velocity/pom.xml` | Exact timestamp and bytes; Velocity API snapshot is not runtime build 605 |
+| Velocity API4.3.1 and Brigadier1.0.0-20261110.144108-12 | PaperMC Maven repository declared in `velocity/pom.xml` | Immutable API release plus exact Brigadier timestamp; changed API transitive JAR/POM hashes included; not runtime acceptance |
 | BungeeCord SNAPSHOTs | CodeMC Maven repository declared in `bungee/pom.xml` | Exact timestamp and bytes; legacy Bungee module is outside the TDR runtime compatibility promise |
 | CraftAPI SNAPSHOT | CodeMC repository declared in `core/pom.xml` | Exact timestamp and bytes |
 | sqlite-jdbc | Maven Central, exact version 3.53.4.0 | Provided dependency; the runtime may supply a different driver |
@@ -55,3 +56,16 @@ For an isolated Maven repository, add `-Dmaven.repo.local=/path/to/repo` to ever
 The system-scope JARs are retained only for inherited legacy adapter compilation. They are not proof those adapters are
 safe or compatible with the live TDR stack. Their exact hashes are in `BUILD_INPUTS.json`; replacing them needs a
 separate provenance and compatibility review.
+
+## 26.3 candidate check — 10 November 2026
+
+No Java protocol adapter changed during the API upgrade. Existing premium HMAC/binding tests and Velocity
+configuration-event, reserved-name and durable backend-ACK regressions pass against 4.3.1 (23 focused tests).
+Maven produced Core, Bukkit and Velocity artifacts as 1.12.0-tdr.4-SNAPSHOT. The checksum/graph verifier passed 114 inputs.
+This is a targeted source-build check, not a new two-build reproducibility or physical login claim. Bukkit compiles against Paper API 26.3/build 248;
+25 focused backend tests also pass. The 48 distinct focused tests
+cover core+proxy+backend units; the combined 26.3 backend connection contract still needs integration acceptance.
+
+Primary API inputs: [Velocity 4.3.1 POM](https://repo.papermc.io/repository/maven-public/com/velocitypowered/velocity-api/4.3.1/velocity-api-4.3.1.pom),
+[Velocity 4.3.1 source](https://github.com/PaperMC/Velocity/tree/300f5d0823691c8c8bace0c91714c63ab52e0b77),
+[Brigadier metadata](https://repo.papermc.io/repository/maven-public/com/velocitypowered/velocity-brigadier/1.0.0-SNAPSHOT/maven-metadata.xml).

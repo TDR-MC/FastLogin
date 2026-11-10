@@ -32,7 +32,7 @@
     <parent>
         <groupId>com.github.games647</groupId>
         <artifactId>fastlogin</artifactId>
-        <version>1.12.0-tdr.3-SNAPSHOT</version>
+        <version>1.12.0-tdr.4-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -46,12 +46,12 @@
     <properties>
         <maven.compiler.release>25</maven.compiler.release>
         <!--
-          PaperMC publishes Velocity API 3.5 snapshots under a mutable base coordinate. Keep the resolvable base
-          coordinate, but fail the build unless Maven resolved the exact audited timestamped artifact bytes.
+          Compile against the immutable Velocity 4.3.1 API release. Runtime build 45 and the
+          separate proxy patch require their own integration gate; verify exact API bytes here.
         -->
-        <velocity.api.version>3.5.0-SNAPSHOT</velocity.api.version>
-        <velocity.api.resolvedSnapshot>3.5.0-20260711.003721-41</velocity.api.resolvedSnapshot>
-        <velocity.api.sha256>c4c3fcf3d5ef20bb7d5839211d6c27c57da4dbcc94cc44ecc304fa8dccb55ff0</velocity.api.sha256>
+        <velocity.api.version>4.3.1</velocity.api.version>
+        <velocity.api.resolvedVersion>4.3.1</velocity.api.resolvedVersion>
+        <velocity.api.sha256>c0c662e9a563a4530894a81c7c2cf0b8f149d24ad6263725bb6c92c20d8e8dd3</velocity.api.sha256>
     </properties>
 
     <build>
@@ -62,14 +62,14 @@
                 <version>3.2.0</version>
                 <executions>
                     <execution>
-                        <id>verify-velocity-api-snapshot</id>
+                        <id>verify-velocity-api-release</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>run</goal>
                         </goals>
                         <configuration>
                             <target>
-                                <fail message="Resolved velocity-api does not match ${velocity.api.resolvedSnapshot}">
+                                <fail message="Resolved velocity-api does not match ${velocity.api.resolvedVersion}">
                                     <condition>
                                         <not>
                                             <checksum
@@ -170,9 +170,7 @@
             <id>velocity</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
             <releases>
-                <enabled>
-                    false
-                </enabled>
+                <enabled>true</enabled>
             </releases>
         </repository>
 
@@ -181,6 +179,17 @@
             <url>https://repo.opencollab.dev/main/</url>
         </repository>
     </repositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.velocitypowered</groupId>
+                <artifactId>velocity-brigadier</artifactId>
+                <!-- Keep the required API dependency immutable despite its upstream SNAPSHOT base. -->
+                <version>1.0.0-20261110.144108-12</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <!--Common plugin component-->
@@ -211,7 +220,7 @@
         <dependency>
             <groupId>com.velocitypowered</groupId>
             <artifactId>velocity-api</artifactId>
-            <!-- Runtime build 605 has no equivalent API coordinate; exact resolved bytes are gated above. -->
+            <!-- Exact 4.3.1 API bytes are gated above; proxy build 45 has separate provenance. -->
             <version>${velocity.api.version}</version>
             <scope>provided</scope>
         </dependency>

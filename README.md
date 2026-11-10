@@ -4,14 +4,14 @@ This is the TDR-maintained fork of [games647/FastLogin](https://github.com/games
 copyright notices, contributor history and MIT license are preserved. TDR maintains compatibility fixes and a small,
 generic configuration-phase premium-identity protocol; it does not claim original authorship of FastLogin.
 
-The current fork runtime target is Minecraft/Paper `26.1.2` build `74`, Purpur `2592`, Velocity
-`3.5.0-SNAPSHOT` build `605` and Java `25.0.3`. AuthMe `6.0.0-b2734` is the intended TDR physical integration gate, not
-a compatibility claim established by this standalone fork build. Other versions remain upstream compatibility rather
-than a tested promise of this fork.
+The previous fork build targeted Minecraft/Paper `26.1.2`, Purpur `2592`, Velocity `3.5.0-SNAPSHOT` build `605`
+and Java `25.0.3`. This development revision compiles against immutable Velocity API `4.3.1` for the Minecraft `26.3`
+candidate. Core premium-claim and Velocity configuration/ACK regressions pass. Backend compile targets Paper API26.3/build248; proxy encrypted negotiation and backend
+AuthMe `6.0.1` integration and physical login acceptance remain separate gates. No deployed compatibility is claimed.
 
 The fork starts from upstream commit `948613876e8239863ef9a7ce077184b1314efc2a`. Its current development artifact
-version is `1.12.0-tdr.3-SNAPSHOT`; it is not an upstream FastLogin release. Maven packaging produces versioned names
-such as `FastLoginBukkit-1.12.0-tdr.3-SNAPSHOT.jar` and `FastLoginVelocity-1.12.0-tdr.3-SNAPSHOT.jar`, so rollout and
+version is `1.12.0-tdr.4-SNAPSHOT`; it is not an upstream FastLogin release. Maven packaging produces versioned names
+such as `FastLoginBukkit-1.12.0-tdr.4-SNAPSHOT.jar` and `FastLoginVelocity-1.12.0-tdr.4-SNAPSHOT.jar`, so rollout and
 rollback cannot silently confuse fork jars with upstream artifacts.
 
 ![A shield-shaped emblem with a bold lightning bolt on the left, resembling Minecraft blocks. To the right, "FastLogin" is written in teal, with the tagline: "Automatically detect and login premium Minecraft players"](https://github.com/user-attachments/assets/0788ef69-029b-465e-83a2-b8e7bccc6295 "FastLogin project logo.avif")
@@ -218,25 +218,21 @@ Possible values: `Premium`, `Cracked`, `Unknown`
 ## Requirements
 
 * Java 25 for build and runtime
-* Minecraft/Paper 26.1.2 build 74, or Purpur 2592 derived from that target
-* Velocity runtime 3.5.0-SNAPSHOT build 605
+* Candidate backend: Minecraft/Paper 26.3 API build 248, Purpur runtime 2657; physical integration remains open
+* Candidate Velocity runtime 4.3.1 build 45; compile API 4.3.1
 * Backend and proxy in offline mode with secure Velocity forwarding and a firewall that blocks direct backend access
-* An authentication plugin; AuthMe 6.0.0-b2734 is the intended TDR physical integration gate
+* An authentication plugin; AuthMe 6.0.1 is the candidate physical integration gate
 
 The inherited BungeeCord and legacy auth-plugin modules still build, but they are not part of the compatibility promise
 for this fork. Use upstream FastLogin for its broader legacy compatibility matrix.
 
-Velocity does not publish runtime build `605` as an equivalent immutable `velocity-api` Maven coordinate. The runtime
-and API build numbers must therefore not be treated as a mapping. This fork compiles through the resolvable
-`3.5.0-SNAPSHOT` base coordinate but pins the audited resolved artifact
-`3.5.0-20260711.003721-41` by SHA-256
-`c4c3fcf3d5ef20bb7d5839211d6c27c57da4dbcc94cc44ecc304fa8dccb55ff0`; Maven validation fails on silent snapshot
-drift. A clean environment consequently needs those exact bytes still available from PaperMC or a checksummed internal
-mirror.
+The fork compiles against published `com.velocitypowered:velocity-api:4.3.1`, pinned by SHA-256
+`c0c662e9a563a4530894a81c7c2cf0b8f149d24ad6263725bb6c92c20d8e8dd3`. Its Brigadier dependency is fixed to
+`1.0.0-20261110.144108-12` rather than a mutable SNAPSHOT alias. The lock also hashes the newly resolved Paper/Velocity API transitive
+JAR/POM inputs. These compile pins do not map the patched runtime bytes or approve proxy/backend integration.
 
-The inherited AuthMe hook still compiles against the authoritative CodeMC release `fr.xephi:authme:5.6.0`. As of this
-fork cut, CodeMC metadata does not publish `6.0.0-b2734` under that coordinate, so declaring it in the POM would invent
-an unavailable artifact. Compatibility with the intended TDR AuthMe runtime must be established by the combined
+The inherited AuthMe hook still compiles against the authoritative CodeMC release `fr.xephi:authme:5.6.0`. The TDR ownership/password adapter is maintained separately from this public hook; this API pin is not a claim that
+the inherited hook owns the candidate backend authentication flow. Compatibility with the intended TDR AuthMe runtime must be established by the combined
 FastLogin/AuthMe adapter build and a physical login matrix before deployment.
 
 Build inputs are locked in [docs/BUILD_INPUTS.json](docs/BUILD_INPUTS.json), with the reproducible verification sequence
