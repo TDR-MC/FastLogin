@@ -73,7 +73,10 @@ Primary API inputs: [Velocity 4.3.1 POM](https://repo.papermc.io/repository/mave
 ### DEV integration CI,10.11.2026
 
 Both Maven Build and CodeQL run for pushes and PRs targeting `dev` as well as
-`main`. `.java-version` pins Temurin25.0.3+9 for these native Maven workflows;
-the local release admission records the actual compiler vendor/build separately.
+`main`. `.java-version` requests Temurin `25.0.3+9.0.LTS`, the full version
+normalization exposed by setup-java v4 for this published build. The shorter
+`25.0.3+9` request did not match that available build in CI. The Temurin vendor
+and pinned Actions are unchanged; the local release admission records the actual
+compiler vendor/build separately.
 No workflow receives a deployment credential or restarts a server. Stable `main`
 does not update parked PROD. Existing checksum and test steps are unchanged.
